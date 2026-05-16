@@ -138,7 +138,8 @@
             <h1 id="display-balance" style="font-size: 2.5rem; margin: 5px 0;">0 Ks</h1>
             <button onclick="showPage('page-deposit')" style="background: #000; color: #FF8C00; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px;">+ Add Money</button>
         </div>
-<div style="margin: 20px; padding: 15px; background: #1a1a1a; border: 1px dashed #FF8C00; border-radius: 12px; text-align: center;">
+
+    <div style="margin: 20px; padding: 15px; background: #1a1a1a; border: 1px dashed #FF8C00; border-radius: 12px; text-align: center;">
     <p style="color: #bbb; font-size: 0.9rem; margin-bottom: 12px;">အကူအညီလိုအပ်ပါက Admin ကို ဆက်သွယ်ပါ</p>
     
     <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -223,7 +224,7 @@
             <button class="btn-orange" style="background: #ff4444; color: white; margin-top: 30px;" onclick="handleLogout()">Logout Account</button>
         </div>
     </div>
-
+    
     <div id="page-orders" class="hidden">
         <div class="header">
             <button onclick="showPage('page-home')" style="background:none; border:none; color:#FF8C00; cursor:pointer;">← Back</button>
@@ -265,17 +266,30 @@
         </div>
     </div>
 
-    <div id="page-deposit" class="hidden">
+        <div id="page-deposit" class="hidden">
         <div class="header">
             <button onclick="showPage('page-home')" style="background:none; border:none; color:#FF8C00; cursor:pointer;">← Back</button>
             <span>ငွေဖြည့်သွင်းရန်</span>
         </div>
         <div style="padding: 20px; text-align: center;">
-            <div style="background: #111; padding: 30px; border-radius: 20px; border: 1px solid #333;">
+            <div style="background: #111; padding: 25px; border-radius: 20px; border: 1px solid #333;">
                 <p style="color: #FF8C00;">Kpay / Wave Money</p>
-                <h1 style="margin: 10px 0;">09451055329</h1>
-                <p style="font-weight: bold; margin-bottom: 20px;">Name: Daw Tin Zar Latt</p>
-                <button class="btn-orange" onclick="window.location.href='https://t.me/srgameshop473_bot'">Screenshot ပို့ရန်</button>
+                <h1 style="margin: 10px 0; font-size: 1.8rem;">09451055329</h1>
+                <p style="font-weight: bold; margin-bottom: 15px; color: #aaa;">Name: Daw Tin Zar Latt</p>
+                
+                <hr style="border: 0; border-top: 1px solid #222; margin: 15px 0;">
+                
+                <p style="color: #FF8C00; font-size: 0.9rem; font-weight: bold; text-align: left; margin-bottom: 5px;">ငွေဖြည့်ပမာဏ (Ks) ထည့်ပါ</p>
+                <input type="number" id="deposit-amount" class="input-field" placeholder="ဥပမာ - 5000" style="margin-top: 0;">
+
+                <p style="color: #FF8C00; font-size: 0.9rem; font-weight: bold; text-align: left; margin-top: 10px; margin-bottom: 5px;">ငွေလွဲပြေစာ (Screenshot) တင်ရန်</p>
+                <div class="upload-box" onclick="document.getElementById('slip-file').click()" style="border: 2px dashed #FF8C00; padding: 20px; border-radius: 12px; cursor: pointer; background: #050505; text-align: center;">
+                    <span id="upload-text" style="color: #888; font-size: 0.85rem;">ဒီနေရာကိုနှိပ်ပြီး ပုံရွေးချယ်ပါ</span>
+                    <input type="file" id="slip-file" accept="image/*" style="display: none;" onchange="previewSlip(event)">
+                    <img id="preview-img" style="width: 100%; max-height: 200px; object-fit: contain; display: none; margin-top: 10px; border-radius: 8px;">
+                </div>
+
+                <button class="btn-orange" id="submit-deposit-btn" onclick="submitDepositOrder()" style="margin-top: 20px;">ငွေဖြည့်မှု တင်ပြမည်</button>
             </div>
         </div>
     </div>
@@ -301,11 +315,27 @@
       measurementId: "G-9RGLMY2F05"
     };
 
-    firebase.initializeApp(firebaseConfig);
+        firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     let currentUser = null;
+    let selectedImageBase64 = null; // <- ဒီကောင်လေး တိုးလာမယ်
+
+    // ပုံရွေးလိုက်ရင် Preview ပြပေးမယ့် Function လေးပါ ကပ်ထည့်ပေးပါ
+    function previewSlip(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('upload-text').style.display = 'none';
+            const preview = document.getElementById('preview-img');
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+            selectedImageBase64 = e.target.result.split(',')[1];
+        };
+        reader.readAsDataURL(file);
+    }
     
-    // --- Customer App Update Logic ---
+        // --- Customer App Update Logic ---
 const currentVersion = "1.0.1"; // ဒီ Version ကို App အသစ်ထုတ်တိုင်း ပြောင်းပေးပါ
 
 db.collection("appSettings").doc("versionControl").onSnapshot((doc) => {
@@ -704,6 +734,125 @@ function loadInbox() {
         }
         contentDiv.innerHTML = html;
     });
+}
+
+async function submitDepositOrder() {
+    const amount = document.getElementById('deposit-amount').value;
+    const btn = document.getElementById('submit-deposit-btn');
+
+    // ၁။ ဖြည့်စွက်ရမယ့် အချက်အလက်များ ရှိ/မရှိ အရင်စစ်ဆေးခြင်း
+    if (!amount || amount <= 0) return alert("ငွေဖြည့်မည့် ပမာဏကို ထည့်ပါ။");
+    if (!selectedImageBase64) return alert("ငွေလွဲပြေစာ Screenshot ကို ထည့်သွင်းပေးပါ။");
+
+    // ခလုတ်ကို ခေတ္တပိတ်ပြီး စာသားပြောင်းခြင်း
+    btn.innerText = "Processing... ခဏစောင့်ပါ";
+    btn.disabled = true;
+
+    try {
+        // ၂။ ImgBB API သို့ ပုံအား တင်ခြင်း
+        const formData = new FormData();
+        formData.append("image", selectedImageBase64);
+        
+        // ⚠️ မိမိရဲ့ Key အသစ်ရလာပါက အောက်က key= နောက်တွင် လဲလှယ်ပေးပါ
+        const imgbbRes = await fetch("https://api.imgbb.com/1/upload?key=06fed9e1368ff406bc578eb29ddb4c80", {
+            method: "POST",
+            body: formData
+        });
+        
+        const imgbbData = await imgbbRes.json();
+        
+        if (!imgbbData.success) {
+            console.error("ImgBB Error Details:", imgbbData);
+            return alert("ပုံတင်ခြင်း မအောင်မြင်ပါ။ ImgBB Key အသစ်လဲလှယ်ရန် လိုအပ်နိုင်ပါသည်။");
+        }
+
+        const imageUrl = imgbbData.data.url; // Cloud ပေါ်က ပုံ Link ရပြီ
+
+        // ၃။ Telegram Bot ဆီသို့ ဓာတ်ပုံနှင့် အချက်အလက်များ ပူးတွဲပေးပို့ခြင်း
+        const telegramToken = "8526730170:AAHX7Y0p0TMb_XgsmgG594XTDVWv4dtC5_E";
+        const chatId = "8189963333";
+        
+        // ဝယ်သူရဲ့ User ID ကို လက်ရှိ Logged-in ဝင်ထားတဲ့ နေရာကနေ ဆွဲထုတ်တာပါ
+        const userId = currentUser ? (currentUser.id || currentUser.uid || 'မသိပါ') : 'Unknown';
+
+        // Telegram မှာ ပြသမယ့် စာသား ပုံစံ (User ID ထည့်သွင်းထားပါသည်)
+        const captionMsg = `💰 <b>SR SHOP - ငွေဖြည့်မှုအသစ်</b>\n` +
+                           `--------------------------\n` +
+                           `🆔 ဝယ်သူ ID: <code>${userId}</code>\n` +
+                           `👤 ဝယ်သူအမည်: ${currentUser ? currentUser.name : 'Unknown'}\n` +
+                           `📞 ဖုန်းနံပါတ်: ${currentUser ? currentUser.phone : 'Unknown'}\n` +
+                           `💵 ငွေဖြည့်ပမာဏ: ${parseInt(amount).toLocaleString()} Ks\n` +
+                           `--------------------------`;
+
+        const teleRes = await fetch(`https://api.telegram.org/bot${telegramToken}/sendPhoto`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: chatId,
+                photo: imageUrl,     // ImgBB ကရလာတဲ့ Link
+                caption: captionMsg, // User ID ပါဝင်သော အချက်အလက် စာသား
+                parse_mode: "HTML"
+            })
+        });
+        
+        const teleData = await teleRes.json();
+        
+        if (!teleData.ok) {
+            console.error("Telegram Error Details:", teleData);
+            return alert("Telegram သို့ ပို့မရဖြစ်နေပါသည်။ Chat ID သို့မဟုတ် Token မှားယွင်းနေနိုင်ပါသည်။");
+        }
+
+  // ==================================================================
+        // 🟢 [ဂျီဂျီ စစ်ဆေးဆဲစာသားဖြင့် ပြောင်းလဲပေးထားသော Alert စနစ်သစ်]
+        // ==================================================================
+        const alertOverlay = document.createElement("div");
+        alertOverlay.style = "position:fixed; top:0; left:0; width:100%; height:100vh; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; z-index:9999999;";
+        
+        alertOverlay.innerHTML = `
+            <div style="background:#1a1a1a; border:2px solid #ff8c00; border-radius:16px; width:85%; max-width:340px; padding:25px; text-align:center; box-shadow:0 0 20px rgba(255,140,0,0.3); color:#fff; font-family:sans-serif; animation: popupAnim 0.25s ease-out;">
+                <div style="font-size: 3.5rem; margin-bottom: 15px;">⏳</div>
+                <h3 style="color:#ff8c00; margin:0 0 15px 0; font-size:1.25rem;">စစ်ဆေးနေပါသည်ခင်ဗျာ</h3>
+                
+                <p style="font-size:0.9rem; line-height:1.6; color:#ccc; text-align:left; margin:0 0 20px 0; white-space:pre-line;">
+                    လူကြီးမင်း တင်ပြထားသော ငွေဖြည့်မှုတောင်းဆိုချက်ကို တာဝန်ရှိသူများမှ သေသေချာချာ စစ်ဆေးပေးနေပါပြီဗျာ။
+
+                    လုပ်ငန်းစဉ်သည် အများဆုံး ၁၅ မိနစ်ခန့်သာ ကြာမြင့်မည်ဖြစ်ပြီး၊ လွှဲပြောင်းမှု မှန်ကန်ပါက ၁၅ မိနစ်အတွင်း လူကြီးမင်း၏ Account ထဲသို့ ပိုက်ဆံ ထည့်သွင်းပေးသွားမည် ဖြစ်ပါသည်။
+
+                    📊 သင့်ငွေဖြည့်သွင်းမှု အခြေအနေကို 'ငွေဖြည့်မှုမှတ်တမ်း ကြည့်ရန်' ခလုတ်တွင် အချိန်မရွေး ဝင်ရောက်စစ်ဆေးနိုင်ပါသည်။
+
+                    SR SHOP ကို ယုံကြည်စွာ အသုံးပြုပေးသည့်အတွက် ကျေးဇူးအထူးတင်ရှိပါသည်ဗျာ။ 🙏
+                </p>
+                
+                <button id="close-alert-btn" style="background:linear-gradient(135deg, #ff8c00, #e06c00); color:#fff; border:none; width:100%; padding:12px; border-radius:8px; font-weight:bold; font-size:1rem; cursor:pointer;">အိုကေ</button>
+            </div>
+            <style>
+                @keyframes popupAnim { from { transform:scale(0.8); opacity:0; } to { transform:scale(1); opacity:1; } }
+            </style>
+        `;
+        
+        document.body.appendChild(alertOverlay);
+        
+        // OK ခလုတ်နှိပ်မှ ဖောင်ကိုရှင်းပြီး Home Page ကို ပြန်သွားမည်
+        alertOverlay.querySelector("#close-alert-btn").onclick = function() {
+            alertOverlay.remove(); // Alert Box အား ပိတ်ခြင်း
+            
+            // မူရင်းဖောင် ရှင်းလင်းရေး ကုဒ်များ
+            document.getElementById('deposit-amount').value = "";
+            document.getElementById('preview-img').style.display = 'none';
+            document.getElementById('upload-text').style.display = 'block';
+            selectedImageBase64 = null;
+            
+            showPage('page-home');
+        };
+        // ==================================================================
+
+    } catch (error) {
+        console.error("System Crash Error:", error);
+        alert("စနစ်ချို့ယွင်းမှု ဖြစ်ပေါ်သွားပါသည်။ ကွန်ပျူတာ Console (F12) တွင် အမှားကို စစ်ဆေးပါ။");
+    } finally {
+        btn.innerText = "ငွေဖြည့်မှု တင်ပြမည်";
+        btn.disabled = false;
+    }
 }
 
 </script>

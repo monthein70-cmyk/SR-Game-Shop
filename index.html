@@ -50,25 +50,9 @@
         .status-pending { color: #FF8C00; font-weight: bold; }
         .status-completed { color: #00ff00; font-weight: bold; }
    
-   .forgot-link {
-    margin-top: 20px; /* Login button နဲ့ အကွာအဝေး */
-    color: #888;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.forgot-link span {
-    color: #FF8C00; /* Reset လုပ်ရန် ဆိုတဲ့စာသားကို Orange ရောင်ပေးတာ */
-    font-weight: bold;
-    text-decoration: underline; /* မျဉ်းတားပေးရင် link မှန်းပိုသိသာတယ် */
-    margin-left: 5px;
-}
-
-.forgot-link:active {
-    transform: scale(0.98); /* နှိပ်လိုက်ရင် တုန်သွားတဲ့ effect */
-    opacity: 0.8;
-    
+        .forgot-link { margin-top: 20px; color: #888; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
+        .forgot-link span { color: #FF8C00; font-weight: bold; text-decoration: underline; margin-left: 5px; }
+        .forgot-link:active { transform: scale(0.98); opacity: 0.8; }
     </style>
 </head>
 <body>
@@ -81,44 +65,37 @@
         <input type="text" id="log-phone" class="input-field" placeholder="ဖုန်းနံပါတ်">
         <input type="password" id="log-pass" class="input-field" placeholder="စကားဝှက်">
         <button class="btn-orange" onclick="handleLogin()">Login</button>
-<p class="forgot-link" onclick="showPage('page-forgot')">စကားဝှက်မေ့နေပါသလား? <span>Reset လုပ်ရန်</span></p>
+        <p class="forgot-link" onclick="showPage('page-forgot')">စကားဝှက်မေ့နေပါသလား? <span>Reset လုပ်ရန်</span></p>
         <p style="margin-top: 25px; color: #888;" onclick="showPage('page-register')">အကောင့်မရှိသေးဘူးလား? <span style="color: #FF8C00;">Register လုပ်ရန်</span></p>
     </div>
 
-<!-- Forgot Password Page -->
-<div id="page-forgot" class="hidden" style="padding: 40px 30px; text-align: center;">
-    <h2 style="color: #FF8C00; margin-bottom: 10px;">Reset Password</h2>
-    <p style="color: #555; font-size: 0.8rem; margin-bottom: 20px;">အကောင့်ဖွင့်စဉ်က ရရှိထားသော Phone နှင့် User ID ကို ဖြည့်ပါ။</p>
-    
-    <input type="text" id="for-phone" class="input-field" placeholder="ဖုန်းနံပါတ်">
-    <input type="text" id="for-userid" class="input-field" placeholder="User ID (e.g. 123456)">
-    <input type="password" id="for-newpass" class="input-field" placeholder="စကားဝှက်အသစ်">
-    
-    <button class="btn-orange" onclick="handleResetPassword()" style="margin-top: 10px;">Reset Password</button>
-
-    <!-- Admin Contact Section -->
-    <div style="margin-top: 30px; padding: 15px; background: #111; border-radius: 12px; border: 1px solid #222;">
-        <p style="color: #666; font-size: 0.75rem; margin-bottom: 10px;">အကူအညီလိုအပ်ပါက Admin ကို ဆက်သွယ်ရန်</p>
+    <div id="page-forgot" class="hidden" style="padding: 40px 30px; text-align: center;">
+        <h2 style="color: #FF8C00; margin-bottom: 10px;">Reset Password</h2>
+        <p style="color: #555; font-size: 0.8rem; margin-bottom: 20px;">အကောင့်ဖွင့်စဉ်က ရရှိထားသော Phone နှင့် User ID ကို ဖြည့်ပါ။</p>
         
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-            <!-- Telegram -->
-            <a href="https://t.me/Tun_1224" target="_blank" style="text-decoration: none; display: flex; align-items: center; justify-content: center; background: #0088cc; color: #fff; padding: 10px; border-radius: 8px; font-size: 0.85rem; font-weight: bold;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="18" style="margin-right: 8px;">
-                Telegram: @Tun_1224
-            </a>
-            
-            <!-- Viber -->
-            <a href="viber://chat?number=%2B959773768702" style="text-decoration: none; display: flex; align-items: center; justify-content: center; background: #7360f2; color: #fff; padding: 10px; border-radius: 8px; font-size: 0.85rem; font-weight: bold;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Viber_logo_2018.svg" width="18" style="margin-right: 8px; filter: brightness(0) invert(1);">
-                Viber: 09773768702
-            </a>
+        <input type="text" id="for-phone" class="input-field" placeholder="ဖုန်းနံပါတ်">
+        <input type="text" id="for-userid" class="input-field" placeholder="User ID (e.g. 123456)">
+        <input type="password" id="for-newpass" class="input-field" placeholder="စကားဝှက်အသစ်">
+        
+        <button class="btn-orange" onclick="handleResetPassword()" style="margin-top: 10px;">Reset Password</button>
+
+        <div style="margin-top: 30px; padding: 15px; background: #111; border-radius: 12px; border: 1px solid #222;">
+            <p style="color: #666; font-size: 0.75rem; margin-bottom: 10px;">အကူအညီလိုအပ်ပါက Admin ကို ဆက်သွယ်ရန်</p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <a href="https://t.me/Tun_1224" target="_blank" style="text-decoration: none; display: flex; align-items: center; justify-content: center; background: #0088cc; color: #fff; padding: 10px; border-radius: 8px; font-size: 0.85rem; font-weight: bold;">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="18" style="margin-right: 8px;">
+                    Telegram: @Tun_1224
+                </a>
+                <a href="viber://chat?number=%2B959773768702" style="text-decoration: none; display: flex; align-items: center; justify-content: center; background: #7360f2; color: #fff; padding: 10px; border-radius: 8px; font-size: 0.85rem; font-weight: bold;">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Viber_logo_2018.svg" width="18" style="margin-right: 8px; filter: brightness(0) invert(1);">
+                    Viber: 09773768702
+                </a>
+            </div>
         </div>
+        <p style="margin-top: 20px; color: #888; font-size: 0.9rem;" onclick="showPage('page-login')">← Login ပြန်ဝင်ရန်</p>
     </div>
 
-    <p style="margin-top: 20px; color: #888; font-size: 0.9rem;" onclick="showPage('page-login')">← Login ပြန်ဝင်ရန်</p>
-</div>
-
-<div id="page-register" class="hidden" style="padding: 40px 30px; text-align: center;">
+    <div id="page-register" class="hidden" style="padding: 40px 30px; text-align: center;">
         <h2 style="color: #FF8C00; margin-bottom: 20px;">Register Account</h2>
         <input type="text" id="reg-name" class="input-field" placeholder="နာမည်အပြည့်အစုံ">
         <input type="text" id="reg-phone" class="input-field" placeholder="ဖုန်းနံပါတ်">
@@ -133,50 +110,46 @@
             <span style="font-weight: bold; color: #FF8C00; font-size: 1.2rem;">SR SHOP</span>
             <span id="user-header-name" style="background: #222; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem;">Guest</span>
         </div>
+        
         <div class="balance-card">
             <p style="font-size: 0.9rem; opacity: 0.8;">My Wallet Balance</p>
             <h1 id="display-balance" style="font-size: 2.5rem; margin: 5px 0;">0 Ks</h1>
             <button onclick="showPage('page-deposit')" style="background: #000; color: #FF8C00; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px;">+ Add Money</button>
         </div>
 
-    <div style="margin: 20px; padding: 15px; background: #1a1a1a; border: 1px dashed #FF8C00; border-radius: 12px; text-align: center;">
-    <p style="color: #bbb; font-size: 0.9rem; margin-bottom: 12px;">အကူအညီလိုအပ်ပါက Admin ကို ဆက်သွယ်ပါ</p>
-    
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-        <!-- Telegram Button -->
-        <a href="https://t.me/tun_1224" target="_blank" 
-           style="display: flex; align-items: center; justify-content: center; background: #0088cc; color: white; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 0.9rem;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="20" style="margin-right: 10px;">
-            Contact Admin (Telegram)
-        </a>
-
-        <!-- Viber Button -->
-        <a href="viber://chat?number=%2B959773768702" 
-           style="display: flex; align-items: center; justify-content: center; background: #7360f2; color: white; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 0.9rem;">
-            Contact Admin (Viber)
-        </a>
-    </div>
-</div>
-
-            <div class="menu-grid">
-    <div class="menu-item" onclick="openStore('mlbb')">
-         <img src="https://img.icons8.com/?size=100&id=0rFc1hzhNfbQ&format=png&color=000000" width="30"><br>Mobile Legends
+        <div style="margin: 20px; padding: 15px; background: #1a1a1a; border: 1px dashed #FF8C00; border-radius: 12px; text-align: center;">
+            <p style="color: #bbb; font-size: 0.9rem; margin-bottom: 12px;">အကူအညီလိုအပ်ပါက Admin ကို ဆက်သွယ်ပါ</p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <a href="https://t.me/tun_1224" target="_blank" style="display: flex; align-items: center; justify-content: center; background: #0088cc; color: white; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 0.9rem;">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="20" style="margin-right: 10px;">
+                    Contact Admin (Telegram)
+                </a>
+                <a href="viber://chat?number=%2B959773768702" style="display: flex; align-items: center; justify-content: center; background: #7360f2; color: white; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 0.9rem;">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Viber_logo_2018.svg" width="20" style="margin-right: 10px; filter: brightness(0) invert(1);">
+                    Contact Admin (Viber)
+                </a>
+            </div>
         </div>
-    <div class="menu-item" onclick="openStore('pubg')">
-        <img src="https://img.icons8.com/color/96/pubg.png" width="30"><br>PUBG Mobile
-    </div>
-    <div class="menu-item" onclick="openStore('ff')">
-        <img src="https://img.icons8.com/color/96/free-fire.png" width="30"><br>Free Fire
-    </div>
+
+         <div class="menu-grid">
+            <div class="menu-item" onclick="openStore('mlbb')">
+                <img id="icon-mlbb" src="https://img.icons8.com/?size=100&id=0rFc1hzhNfbQ&format=png&color=000000" width="100"><br>Mobile Legends
+            </div>
+            <div class="menu-item" onclick="openStore('pubg')">
+                <img id="icon-pubg" src="https://img.icons8.com/color/96/pubg.png" width="100"><br>PUBG Mobile
+            </div>
+            <div class="menu-item" onclick="openStore('ff')">
+                <img id="icon-ff" src="https://img.icons8.com/color/96/free-fire.png" width="100"><br>Free Fire
+            </div>
             <div class="menu-item" onclick="loadUserOrders()">    
-              <img src="https://img.icons8.com/fluency/96/scroll.png" width="30"><br>My Orders
+                <img id="icon-orders" src="https://img.icons8.com/fluency/96/scroll.png" width="100"><br>My Orders
             </div>
             <div class="menu-item" onclick="showPage('page-ai')">
-            <img  src="https://img.icons8.com/fluency/96/artificial-intelligence.png" width="30"><br>Gemini AI
-              </div>
-   <div class="menu-item" onclick="loadInbox(); showPage('page-msg')">
-    <img src="https://img.icons8.com/fluency/96/mail.png" width="30"><br> Messages
-</div>
+                <img id="icon-ai" src="https://img.icons8.com/fluency/96/artificial-intelligence.png" width="100"><br>Gemini AI
+            </div>
+            <div class="menu-item" onclick="loadInbox(); showPage('page-msg')">
+                <img id="icon-messages" src="https://img.icons8.com/fluency/96/mail.png" width="100"><br> Messages
+            </div>
         </div>
     </div>
 
@@ -233,23 +206,22 @@
         <div id="user-orders-container" style="padding-top: 10px;"></div>
     </div>
 
-<div id="page-msg" class="hidden">
-    <div class="header">
-        <button onclick="showPage('page-home')" style="background:none; border:none; color:#FF8C00; cursor:pointer;">← Back</button>
-        <span>Inbox Messages</span>
-    </div>
-    <div style="padding: 20px;">
-        <div style="background: #111; padding: 20px; border-radius: 15px; border-left: 4px solid #FF8C00; margin-bottom: 20px;">
-            <p style="color: #FF8C00; font-weight: bold; margin-bottom: 5px;">Welcome to SR SHOP!</p>
-            <p style="color: #888; font-size: 0.85rem;">ဂိမ်းဝန်ဆောင်မှုများကို ယုံကြည်စိတ်ချစွာ ဝယ်ယူအားပေးနိုင်ပါသည်။</p>
-            <p style="margin-top: 10px; font-size: 0.7rem; color: #444;">Developer: Thu Rain Tun</p>
+    <div id="page-msg" class="hidden">
+        <div class="header">
+            <button onclick="showPage('page-home')" style="background:none; border:none; color:#FF8C00; cursor:pointer;">← Back</button>
+            <span>Inbox Messages</span>
         </div>
-
-        <div id="msg-list-content">
-            <p style="text-align:center; color:#444; font-size: 0.8rem;">စာမက်ဆေ့ခ်ျများ ရှာဖွေနေသည်...</p>
+        <div style="padding: 20px;">
+            <div style="background: #111; padding: 20px; border-radius: 15px; border-left: 4px solid #FF8C00; margin-bottom: 20px;">
+                <p style="color: #FF8C00; font-weight: bold; margin-bottom: 5px;">Welcome to SR SHOP!</p>
+                <p style="color: #888; font-size: 0.85rem;">ဂိမ်းဝန်ဆောင်မှုများကို ယုံကြည်စိတ်ချစွာ ဝယ်ယူအားပေးနိုင်ပါသည်။</p>
+                <p style="margin-top: 10px; font-size: 0.7rem; color: #444;">Developer: Thu Rain Tun</p>
+            </div>
+            <div id="msg-list-content">
+                <p style="text-align:center; color:#444; font-size: 0.8rem;">စာမက်ဆေ့ခ်ျများ ရှာဖွေနေသည်...</p>
+            </div>
         </div>
     </div>
-</div>
 
     <div id="page-ai" class="hidden">
         <div class="header">
@@ -259,14 +231,13 @@
         <div class="chat-area" id="chat-box">
             <div class="msg msg-ai">မင်္ဂလာပါ။ SR Game Shop မှ ကြိုဆိုပါတယ်။</div>
         </div>
-        
         <div style="padding: 15px; display: flex; gap: 10px; background: #111;">
             <input type="text" id="ai-input" class="input-field" style="margin:0;" placeholder="မေးမြန်းလိုသည်များ...">
             <button class="btn-orange" style="width: 80px; margin: 0;" onclick="askGemini()">Send</button>
         </div>
     </div>
 
-        <div id="page-deposit" class="hidden">
+    <div id="page-deposit" class="hidden">
         <div class="header">
             <button onclick="showPage('page-home')" style="background:none; border:none; color:#FF8C00; cursor:pointer;">← Back</button>
             <span>ငွေဖြည့်သွင်းရန်</span>
@@ -276,19 +247,15 @@
                 <p style="color: #FF8C00;">Kpay / Wave Money</p>
                 <h1 style="margin: 10px 0; font-size: 1.8rem;">09451055329</h1>
                 <p style="font-weight: bold; margin-bottom: 15px; color: #aaa;">Name: Daw Tin Zar Latt</p>
-                
                 <hr style="border: 0; border-top: 1px solid #222; margin: 15px 0;">
-                
                 <p style="color: #FF8C00; font-size: 0.9rem; font-weight: bold; text-align: left; margin-bottom: 5px;">ငွေဖြည့်ပမာဏ (Ks) ထည့်ပါ</p>
                 <input type="number" id="deposit-amount" class="input-field" placeholder="ဥပမာ - 5000" style="margin-top: 0;">
-
                 <p style="color: #FF8C00; font-size: 0.9rem; font-weight: bold; text-align: left; margin-top: 10px; margin-bottom: 5px;">ငွေလွဲပြေစာ (Screenshot) တင်ရန်</p>
                 <div class="upload-box" onclick="document.getElementById('slip-file').click()" style="border: 2px dashed #FF8C00; padding: 20px; border-radius: 12px; cursor: pointer; background: #050505; text-align: center;">
                     <span id="upload-text" style="color: #888; font-size: 0.85rem;">ဒီနေရာကိုနှိပ်ပြီး ပုံရွေးချယ်ပါ</span>
                     <input type="file" id="slip-file" accept="image/*" style="display: none;" onchange="previewSlip(event)">
                     <img id="preview-img" style="width: 100%; max-height: 200px; object-fit: contain; display: none; margin-top: 10px; border-radius: 8px;">
                 </div>
-
                 <button class="btn-orange" id="submit-deposit-btn" onclick="submitDepositOrder()" style="margin-top: 20px;">ငွေဖြည့်မှု တင်ပြမည်</button>
             </div>
         </div>
@@ -303,7 +270,7 @@
 </div>
 
 <script>
-    // --- Firebase Config (100% Intact) ---
+    // --- Firebase Config ---
     const firebaseConfig = {
       apiKey: "AIzaSyALqp9IxejZ2b4d3vJMGuwV0RWPxpQRsaU",
       authDomain: "diamondshop-b56ab.firebaseapp.com",
@@ -315,12 +282,11 @@
       measurementId: "G-9RGLMY2F05"
     };
 
-        firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     let currentUser = null;
-    let selectedImageBase64 = null; // <- ဒီကောင်လေး တိုးလာမယ်
+    let selectedImageBase64 = null;
 
-    // ပုံရွေးလိုက်ရင် Preview ပြပေးမယ့် Function လေးပါ ကပ်ထည့်ပေးပါ
     function previewSlip(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -335,30 +301,29 @@
         reader.readAsDataURL(file);
     }
     
-        // --- Customer App Update Logic ---
-const currentVersion = "1.0.1"; // ဒီ Version ကို App အသစ်ထုတ်တိုင်း ပြောင်းပေးပါ
+// --- App Update Logic ---
+    const currentVersion = "1.0.1";
 
-db.collection("appSettings").doc("versionControl").onSnapshot((doc) => {
-    if (doc.exists) {
-        const latestVersion = doc.data().version;
-        const updateUrl = doc.data().url;
+    db.collection("appSettings").doc("versionControl").onSnapshot((doc) => {
+        if (doc.exists) {
+            const latestVersion = doc.data().version;
+            const updateUrl = doc.data().url;
 
-        if (latestVersion !== currentVersion) {
-            // Version မတူရင် Screen တစ်ခုလုံးကို Update စာသားပဲ ပြမယ်
-            document.body.innerHTML = `
-                <div style="text-align:center; padding:50px; background:#000; color:white; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; font-family:sans-serif;">
-                    <h2 style="color:#FF8C00;">Update ရရှိနိုင်ပါပြီ!</h2>
-                    <p style="font-size:1.1rem;">Version အသစ် (${latestVersion}) ထွက်ရှိလာပါပြီ။</p>
-                    <p style="color:#888;">ဆက်လက်အသုံးပြုနိုင်ရန် Version အသစ်ကို ဒေါင်းလုဒ်ဆွဲပါ။</p>
-                    <br>
-                    <a href="${updateUrl}" target="_blank" style="background:#FF8C00; padding:15px 40px; border-radius:30px; text-decoration:none; color:black; font-weight:bold; font-size:1.2rem; box-shadow: 0 4px 15px rgba(255,140,0,0.3);">
-                        UPDATE NOW
-                    </a>
-                </div>
-            `;
+            if (latestVersion !== currentVersion) {
+                document.body.innerHTML = `
+                    <div style="text-align:center; padding:50px; background:#000; color:white; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; font-family:sans-serif;">
+                        <h2 style="color:#FF8C00;">Update ရရှိနိုင်ပါပြီ!</h2>
+                        <p style="font-size:1.1rem;">Version အသစ် (${latestVersion}) ထွက်ရှိလာပါပြီ။</p>
+                        <p style="color:#888;">ဆက်လက်အသုံးပြုနိုင်ရန် Version အသစ်ကို ဒေါင်းလုဒ်ဆွဲပါ။</p>
+                        <br>
+                        <a href="${updateUrl}" target="_blank" style="background:#FF8C00; padding:15px 40px; border-radius:30px; text-decoration:none; color:black; font-weight:bold; font-size:1.2rem; box-shadow: 0 4px 15px rgba(255,140,0,0.3);">
+                            UPDATE NOW
+                        </a>
+                    </div>
+                `;
+            }
         }
-    }
-});
+    });
 
     window.onload = function() {
         const savedPhone = localStorage.getItem("sr_user_phone");
@@ -373,27 +338,20 @@ db.collection("appSettings").doc("versionControl").onSnapshot((doc) => {
         } else { showPage('page-login'); }
     };
 
-function showPage(id) {
-    // Page အားလုံးကို အရင်ဖျောက်မယ်
-    document.querySelectorAll('.app-container > div').forEach(div => {
-        if(div.id !== 'nav-bar') div.classList.add('hidden');
-    });
-
-    // ရွေးချယ်ထားတဲ့ page ကို ပြမယ်
-    document.getElementById(id).classList.remove('hidden');
-
-    const nav = document.getElementById('nav-bar');
-
-    // Login, Register နဲ့ Forgot Password page တွေမှာ Nav Bar ကို ဖျောက်ထားမယ်
-    if (id === 'page-login' || id === 'page-register' || id === 'page-forgot') {
-        nav.classList.add('hidden');
-    } else {
-        // တခြား page တွေ (Login ဝင်ပြီးမှ မြင်ရမယ့် page တွေ) မှာပဲ Nav Bar ကို ပြမယ်
-        nav.classList.remove('hidden');
+    function showPage(id) {
+        document.querySelectorAll('.app-container > div').forEach(div => {
+            if(div.id !== 'nav-bar') div.classList.add('hidden');
+        });
+        document.getElementById(id).classList.remove('hidden');
+        const nav = document.getElementById('nav-bar');
+        if (id === 'page-login' || id === 'page-register' || id === 'page-forgot') {
+            nav.classList.add('hidden');
+        } else {
+            nav.classList.remove('hidden');
+        }
     }
-}
 
-function handleLogin() {
+    function handleLogin() {
         const phone = document.getElementById('log-phone').value;
         const pass = document.getElementById('log-pass').value;
         if(!phone || !pass) return alert("ဖြည့်စွက်ပေးပါ။");
@@ -423,17 +381,15 @@ function handleLogin() {
 
     function handleLogout() { localStorage.removeItem("sr_user_phone"); location.reload(); }
 
-            function updateUI() {
+    function updateUI() {
         db.collection("users").doc(currentUser.phone).onSnapshot(doc => {
             if(doc.exists) {
                 currentUser = doc.data();
                 const balText = currentUser.balance.toLocaleString() + " Ks";
                 
-                // Home UI
                 document.getElementById('user-header-name').innerText = currentUser.name;
                 document.getElementById('display-balance').innerText = balText;
                 
-                // Profile UI (Updated)
                 document.getElementById('prof-name-top').innerText = currentUser.name;
                 document.getElementById('prof-display-name').innerText = currentUser.name;
                 document.getElementById('prof-display-phone').innerText = currentUser.phone;
@@ -445,65 +401,58 @@ function handleLogin() {
     }
 
     function openStore(game) {
-    const listView = document.getElementById('price-list-view');
-    document.getElementById('store-title').innerText = game.toUpperCase() + " TOP UP";
-    listView.innerHTML = '<p style="text-align:center; padding:20px; color:#FF8C00;">Loading prices...</p>';
-    
-    // UI Inputs ပြောင်းလဲခြင်း
-    document.querySelectorAll('#id-input-section > div').forEach(div => div.classList.add('hidden'));
-    const gameInput = document.getElementById(game + '-inputs');
-    if(gameInput) gameInput.classList.remove('hidden');
-    
-    showPage('page-store');
+        const listView = document.getElementById('price-list-view');
+        document.getElementById('store-title').innerText = game.toUpperCase() + " TOP UP";
+        listView.innerHTML = '<p style="text-align:center; padding:20px; color:#FF8C00;">Loading prices...</p>';
+        
+        document.querySelectorAll('#id-input-section > div').forEach(div => div.classList.add('hidden'));
+        const gameInput = document.getElementById(game + '-inputs');
+        if(gameInput) gameInput.classList.remove('hidden');
+        
+        showPage('page-store');
 
-    // Firestore မှ Data ဆွဲထုတ်ခြင်း
-    db.collection("prices").doc(game).onSnapshot(doc => {
-        if(doc.exists) {
-            const data = doc.data();
-            listView.innerHTML = "";
-            let hasData = false;
+        db.collection("prices").doc(game).onSnapshot(doc => {
+            if(doc.exists) {
+                const data = doc.data();
+                listView.innerHTML = "";
+                let hasData = false;
 
-            // Firestore ထဲမှာရှိသမျှ Field တွေ (Diamonds, UC, Passes စသဖြင့်) ကို အကုန်ပတ်စစ်မယ်
-            Object.keys(data).forEach(fieldName => {
-                const itemArray = data[fieldName];
-                
-                // အကယ်၍ အဲ့ဒီ field က Array ဖြစ်နေရင် Screen ပေါ်မှာ ထုတ်ပြမယ်
-                if (Array.isArray(itemArray) && itemArray.length > 0) {
-                    renderCat(listView, fieldName.toUpperCase(), itemArray, game);
-                    hasData = true;
+                Object.keys(data).forEach(fieldName => {
+                    const itemArray = data[fieldName];
+                    if (Array.isArray(itemArray) && itemArray.length > 0) {
+                        renderCat(listView, fieldName.toUpperCase(), itemArray, game);
+                        hasData = true;
+                    }
+                });
+
+                if(!hasData) {
+                    listView.innerHTML = '<p style="text-align:center; padding:20px; color:#555;">ဈေးနှုန်းစာရင်း ထည့်သွင်းထားခြင်း မရှိသေးပါ။</p>';
                 }
-            });
-
-            if(!hasData) {
-                listView.innerHTML = '<p style="text-align:center; padding:20px; color:#555;">ဈေးနှုန်းစာရင်း ထည့်သွင်းထားခြင်း မရှိသေးပါ။</p>';
+            } else {
+                listView.innerHTML = '<p style="text-align:center; padding:20px; color:#ff4444;">Document မတွေ့ပါ။</p>';
             }
-        } else {
-            listView.innerHTML = '<p style="text-align:center; padding:20px; color:#ff4444;">Document မတွေ့ပါ။</p>';
-        }
-    });
-}
+        });
+    }
 
     function renderCat(el, title, items, game) {
-    el.innerHTML += `<div class="category-label">${title}</div>`;
-    items.forEach(item => {
-        // Firestore ထဲမှာ amount သို့မဟုတ် Amount သို့မဟုတ် name လို့ ရေးထားတာကို ရှာမယ်
-        const itemAmount = item.amount || item.Amount || item.name || "Unknown";
-        const itemPrice = item.price || item.Price || 0;
+        el.innerHTML += `<div class="category-label">${title}</div>`;
+        items.forEach(item => {
+            const itemAmount = item.amount || item.Amount || item.name || "Unknown";
+            const itemPrice = item.price || item.Price || 0;
 
-        el.innerHTML += `
-            <div class="price-row">
-                <div>
-                    <p style="font-weight:bold;">${itemAmount}</p>
-                    <p style="color:#FF8C00;">${itemPrice.toLocaleString()} Ks</p>
-                </div>
-                <button class="buy-btn" onclick="processOrder('${game}', '${itemAmount}', ${itemPrice})">Buy Now</button>
-            </div>`;
-    });
-}
+            el.innerHTML += `
+                <div class="price-row">
+                    <div>
+                        <p style="font-weight:bold;">${itemAmount}</p>
+                        <p style="color:#FF8C00;">${itemPrice.toLocaleString()} Ks</p>
+                    </div>
+                    <button class="buy-btn" onclick="processOrder('${game}', '${itemAmount}', ${itemPrice})">Buy Now</button>
+                </div>`;
+        });
+    }
 
-
- function processOrder(game, item, price) {
-        if(currentUser.balance < price) return alert("လက်ကျန်ငွေမလုံလောက်ပါ။");
+    function processOrder(game, item, price) {
+        if(currentUser.balance < price) return alert("Sub-balance Low လက်ကျန်ငွေမလုံလောက်ပါ။");
         let gId = (game === 'mlbb') ? document.getElementById('ml-id').value + "(" + document.getElementById('ml-server').value + ")" : document.getElementById(game + '-id').value;
         if(!gId || gId === "()") return alert("Game ID ဖြည့်ပါ။");
         
@@ -513,296 +462,250 @@ function handleLogin() {
                 db.collection("orders").add({
                     orderId: oId, userId: currentUser.phone, game: game, gameId: gId, item: item, price: price, status: "pending", time: firebase.firestore.FieldValue.serverTimestamp()
                 }).then(() => alert("✅ Order တင်ပြီးပါပြီ။"));
-const msg = `🔔 **SR SHOP - အော်ဒါအသစ်**\n` +
-                    `--------------------------\n` +
-                    `📝 Order ID: #${oId}\n` +
-                    `🎮 ဂိမ်း: ${game}\n` +
-                    `👤 ဝယ်သူ: ${currentUser.name}\n` +
-                    `📞 ဖုန်း: ${currentUser.phone}\n` +
-                    `💎 ပမာဏ: ${item}\n` +
-                    `🆔 Game ID: ${gId}\n` +
-                    `💰 ကျသင့်ငွေ: ${price} Ks\n` +
-                    `--------------------------`;
 
-        sendToTelegram(msg);
+                const msg = `🔔 **SR SHOP - အော်ဒါအသစ်**\n` +
+                            `--------------------------\n` +
+                            `📝 Order ID: #${oId}\n` +
+                            `🎮 ဂိမ်း: ${game}\n` +
+                            `👤 ဝယ်သူ: ${currentUser.name}\n` +
+                            `📞 ဖုန်း: ${currentUser.phone}\n` +
+                            `💎 ပမာဏ: ${item}\n` +
+                            `🆔 Game ID: ${gId}\n` +
+                            `💰 ကျသင့်ငွေ: ${price} Ks\n` +
+                            `--------------------------`;
+                sendToTelegram(msg);
             });
         }
     }
 
-function loadUserOrders() {
-    showPage('page-orders');
-    const container = document.getElementById('user-orders-container');
-    container.innerHTML = '<p style="text-align:center; padding:20px; color:#FF8C00;">Loading History...</p>';
+    function loadUserOrders() {
+        showPage('page-orders');
+        const container = document.getElementById('user-orders-container');
+        container.innerHTML = '<p style="text-align:center; padding:20px; color:#FF8C00;">Loading History...</p>';
 
-    db.collection("orders").where("userId", "==", currentUser.phone).onSnapshot((snap) => {
-        if (snap.empty) { 
-            container.innerHTML = '<p style="text-align:center; padding:50px; color:#555;">No orders found.</p>'; 
-            return; 
-        }
-        
-        let arr = []; 
-        snap.forEach(doc => arr.push(doc.data()));
-        arr.sort((a, b) => (b.time?.seconds || 0) - (a.time?.seconds || 0));
+        db.collection("orders").where("userId", "==", currentUser.phone).onSnapshot((snap) => {
+            if (snap.empty) { 
+                container.innerHTML = '<p style="text-align:center; padding:50px; color:#555;">No orders found.</p>'; 
+                return; 
+            }
+            
+            let arr = []; 
+            snap.forEach(doc => arr.push(doc.data()));
+            arr.sort((a, b) => (b.time?.seconds || 0) - (a.time?.seconds || 0));
 
-        let html = "";
-        arr.forEach(d => {
-            // ဂိမ်းအလိုက် ပုံ Link များ (မင်းစိတ်ကြိုက် PNG ပြောင်းထည့်နိုင်သည်)
-            let iconUrl = "https://cdn-icons-png.flaticon.com/512/681/681123.png"; // Default Icon
-            if(d.game === 'mlbb') iconUrl = "https://img.icons8.com/?size=100&id=17333&format=png&color=000000";
-            if(d.game === 'pubg') iconUrl = "https://img.icons8.com/color/96/pubg.png";
-            if(d.game === 'ff') iconUrl = "https://img.icons8.com/color/96/free-fire.png";
-
-            html += `
-            <div style="background:#111; margin:10px 15px; padding:15px; border-radius:15px; border:1px solid #222; display:flex; align-items:center; gap:15px; border-left: 5px solid ${d.status === 'completed' ? '#00ff00' : '#FF8C00'};">
-                
-                <!-- PNG Icon ထည့်တဲ့နေရာ -->
-                <img src="${iconUrl}" width="45" height="45" style="border-radius:10px; background:#000; padding:5px;">
-
-                <div style="flex:1;">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="color:#FF8C00; font-weight:bold; font-size:1rem;">${d.game.toUpperCase()}</span>
-                        <span style="color:${d.status === 'completed' ? '#00ff00' : '#FF8C00'}; font-size:0.8rem; font-weight:bold;">${d.status.toUpperCase()}</span>
-                    </div>
-                    <p style="font-size:0.85rem; color:#ccc; margin:3px 0;">${d.item} - ${d.price.toLocaleString()} Ks</p>
-                    <p style="font-size:0.7rem; color:#555;">ID: ${d.gameId} | #${d.orderId}</p>
-                </div>
-            </div>`;
-        });
-        container.innerHTML = html;
-    });
-}
-
-async function askGemini() {
-    const input = document.getElementById('ai-input');
-    const chatBox = document.getElementById('chat-box');
-    const userText = input.value.trim();
-    const q = userText.toLowerCase();
-
-    if (!userText) return;
-
-    // User Message ကို Chat Box ထဲထည့်ခြင်း
-    chatBox.innerHTML += `<div class="msg msg-user">${userText}</div>`;
-    input.value = "";
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    // AI စဉ်းစားနေတဲ့ ပုံစံလေးပြဖို့
-    setTimeout(async () => {
-        let reply = "";
-        let shouldNotifyOwner = false;
-
-        // ၁။ နှုတ်ဆက်ခြင်း (Greetings)
-        if (q.includes("hi") || q.includes("hello") || q.includes("မင်္ဂလာပါ") || q.includes("ဟလို")) {
-            reply = "မင်္ဂလာပါခင်ဗျာ! **SR Game Shop** ရဲ့ AI Assistant ဖြစ်ပါတယ်။ လူကြီးမင်းအတွက် Game Currency တွေနဲ့ ပတ်သက်ပြီး ဘာများ ကူညီပေးရမလဲခင်ဗျာ။";
-        } 
-        // ၂။ ပိုင်ရှင်နှင့် Developer အကြောင်း
-        else if (q.includes("ပိုင်ရှင်") || q.includes("thu rain tun") || q.includes("owner") || q.includes("developer") || q.includes("ဘယ်သူလုပ်တာလဲ")) {
-            reply = "ဒီ Application ကို လူငယ် Developer တစ်ဦးဖြစ်တဲ့ **Thu Rain Tun** က ကိုယ်တိုင် ရေးသားဖန်တီးထားတာ ဖြစ်ပါတယ်။ SR Game Shop ကို အကောင်းဆုံး ဝန်ဆောင်မှုပေးနိုင်ဖို့ သူက အမြဲ ကြိုးစားနေပါတယ်။";
-        } 
-        // ၃။ ငွေဖြည့်ခြင်း (Deposit & Payment)
-        else if (q.includes("ငွေဖြည့်") || q.includes("deposit") || q.includes("ပိုက်ဆံဖြည့်") || q.includes("kpay") || q.includes("wave") || q.includes("payment")) {
-            reply = "<b>ငွေဖြည့်သွင်းရန် အဆင့်ဆင့်:</b><br>၁။ Home Page ရှိ <b>'+ Add Money'</b> ကို နှိပ်ပါ။<br>၂။ Kpay (သို့မဟုတ်) Wave နံပါတ်ကို Copy ယူပြီး ငွေလွှဲပါ။<br>၃။ ငွေလွှဲပြီးပါက Screenshot ကို ကျွန်တော်တို့ရဲ့ Telegram Bot ဆီသို့ ပို့ပေးပါ။<br>၄။ Admin မှ စစ်ဆေးပြီး ၅ မိနစ်အတွင်း Balance ထည့်ပေးပါလိမ့်မယ်။";
-        } 
-        // ၄။ အော်ဒါတင်နည်းနှင့် ဝယ်ယူခြင်း
-        else if (q.includes("order") || q.includes("အော်ဒါ") || q.includes("ဝယ်နည်း") || q.includes("တင်နည်း") || q.includes("ဘယ်လိုဝယ်ရမလဲ")) {
-            reply = "<b>အော်ဒါတင်နည်းလမ်းညွှန်:</b><br>၁။ မိမိဝယ်လိုသော Game (MLBB, Free Fire, PUBG) ကို ရွေးပါ။<br>၂။ Game ID နှင့် Server ID ကို သေချာစွာ ဖြည့်သွင်းပါ။<br>၃။ မိမိဝယ်ယူလိုသော ပမာဏကို ရွေးချယ်ပြီး <b>'Buy Now'</b> ကို နှိပ်ပါ။<br>၄။ ဝယ်ယူမှု အောင်မြင်/မအောင်မြင်ကို <b>'My Orders'</b> ကဏ္ဍမှာ စစ်ဆေးနိုင်ပါတယ်။";
-        }
-        // ၅။ Game အမျိုးအစားများ
-        else if (q.includes("game") || q.includes("ဂိမ်း") || q.includes("ml") || q.includes("pubg") || q.includes("free fire")) {
-            reply = "လောလောဆယ်မှာတော့ Mobile Legends, PUBG Mobile နဲ့ Free Fire ဂိမ်းတွေအတွက် Diamond နဲ့ UC တွေကို အသက်သာဆုံး ဈေးနှုန်းတွေနဲ့ ဝယ်ယူနိုင်ပါတယ်။";
-        }
-        // ၆။ ယုံကြည်ရမှု ရှိမရှိ (Customer Side ပေါင်းစည်းပြီး)
-        else if (q.includes("ယုံရလား") || q.includes("ယုံကြည်") || q.includes("safe") || q.includes("scam")) {
-            reply = "<b>SR Game Shop</b> ဟာ ရာနှုန်းပြည့် ယုံကြည်စိတ်ချရပါတယ်။ Developer <b>Thu Rain Tun</b> ကိုယ်တိုင် တာဝန်ယူထားတာဖြစ်လို့ စိတ်အေးချမ်းသာစွာ ဝယ်ယူနိုင်ပါတယ်ခင်ဗျာ။";
-        }
-        // ၇။ Password မေ့သွားခြင်း
-        else if (q.includes("password") || q.includes("စကားဝှက်") || q.includes("မေ့သွား") || q.includes("forgot")) {
-            reply = "Password မေ့သွားပါက <b>Contact Admin</b> မှတဆင့် ပိုင်ရှင် Thu Rain Tun ထံသို့ တိုက်ရိုက် ဆက်သွယ်ပေးပါ။ လူကြီးမင်း၏ ဖုန်းနံပါတ်ကို စစ်ဆေးပြီး Password အသစ် ပြန်လည် ထုတ်ပေးပါလိမ့်မယ်။";
-        }
-        // ၈။ ကြာချိန် မေးခွန်း
-        else if (q.includes("ကြာမလား") || q.includes("ဘယ်လောက်ကြာ") || q.includes("waiting time")) {
-            reply = "ပုံမှန်အားဖြင့် အော်ဒါတင်ပြီး <b>၅ မိနစ်မှ ၁၅ မိနစ်</b> အတွင်း ရောက်ပါတယ်ခင်ဗျာ။ Admin မအားလပ်တဲ့ အချိန်မျိုးမှာတော့ အနည်းငယ် ကြာနိုင်ပါတယ်။";
-        }
-        // ၉။ အော်ဒါမရောက်သည့် ကိစ္စ
-        else if (q.includes("မရောက်သေးဘူး") || q.includes("order မတက်ဘူး")) {
-            reply = "အော်ဒါတင်ပြီး မိနစ် ၂၀ ကျော်တဲ့အထိ မရောက်သေးရင် <b>Contact Admin</b> ခလုတ်ကနေတဆင့် Admin ကို တိုက်ရိုက်ဆက်သွယ် မေးမြန်းနိုင်ပါတယ်ခင်ဗျာ။";
-        }
-        // ၁၀။ ချစ်တယ်နော် / ကျေးဇူးတင်ခြင်း
-        else if (q.includes("ချစ်တယ်") || q.includes("i love you")) {
-            reply = "ကျွန်တော်တို့ <b>SR Game Shop</b> ကို အားပေးတဲ့အတွက် အများကြီး ချစ်ပါတယ်ခင်ဗျာ! ❤️ အမြဲတမ်း အကောင်းဆုံး ဝန်ဆောင်မှုပေးသွားမှာပါ။";
-        }
-        else if (q.includes("ကျေးဇူး") || q.includes("thanks") || q.includes("thank you")) {
-            reply = "ရပါတယ်ခင်ဗျာ။ လူကြီးမင်းရဲ့ အားပေးမှုက ကျွန်တော်တို့အတွက် အင်အားပါပဲ။";
-        }
-        // ၁၁။ Back Button အသုံးပြုနည်း
-        else if (q.includes("back") || q.includes("ပြန်ထွက်")) {
-            reply = "စာမျက်နှာတစ်ခုမှ ပြန်ထွက်ရန် Header ရှိ <b>'← Back'</b> ခလုတ်ကို သုံးပါ။";
-        }
-        // ၁၂။ မသိသော မေးခွန်းများ (Default Reply)
-        else {
-            reply = "တောင်းပန်ပါတယ်ခင်ဗျာ၊ အဲဒါကိုတော့ ကျွန်တော် မသိသေးပါဘူး။ လူကြီးမင်းရဲ့ မေးခွန်းကို ပိုင်ရှင် Thu Rain Tun ဆီကို တိုက်ရိုက် မေးမြန်းပေးပို့ထားပါတယ်။ မကြာခင် ပြန်လည်ဖြေကြားပေးပါ့မယ်။";
-            shouldNotifyOwner = true;
-        }
-
-        // AI Message ကို Chat Box ထဲထည့်ခြင်း
-        chatBox.innerHTML += `<div class="msg msg-ai">${reply}</div>`;
-        chatBox.scrollTop = chatBox.scrollHeight;
-
-        // Telegram သို့ အကြောင်းကြားစာ ပို့ခြင်း
-        let telegramMsg = `🔔 AI Chat Alert!\nUser: ${userText}\nAI Reply: ${reply.replace(/<br>/g, '\n')}`;
-        if (shouldNotifyOwner) {
-            telegramMsg = `⚠️ Unknown Question Alert!\nUser မေးတာ: ${userText}\nဒီမေးခွန်းကို AI မဖြေနိုင်လို့ စစ်ဆေးပေးပါ ပိုင်ရှင် Thu Rain Tun ခင်ဗျာ။`;
-        }
-        sendToTelegram(telegramMsg);
-
-    }, 800);
-}
-
-async function sendToTelegram(msg) {
-    const token = "8526730170:AAHX7Y0p0TMb_XgsmgG594XTDVWv4dtC5_E";
-    const chatId = "8189963333";
-    const url = `https://api.telegram.org/bot${token}/sendMessage`;
-
-    try {
-        await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: chatId,
-                text: msg,
-                parse_mode: "HTML"
-            })
-        });
-    } catch (e) {
-        console.error("Telegram Error:", e);
-    }
-}
-
-    async function sendToTelegram(msg) {
-    const token = "8526730170:AAHX7Y0p0TMb_XgsmgG594XTDVWv4dtC5_E";
-    const chatId = "8189963333";
-    const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(msg)}`;
-    
-try {
-        await fetch(url);
-    } catch(e) {
-        console.log("Telegram Error:", e);
-    }
-}
-
-function loadInbox() {
-    showPage('page-msg');
-    const contentDiv = document.getElementById('msg-list-content');
-
-    db.collection("messages")
-      .where("to", "==", currentUser.phone)
-      .onSnapshot(snap => {
-        let html = "";
-
-        if (snap.empty) {
-            html = `<p style="text-align:center; color:#444; font-size: 0.8rem; margin-top: 20px;">Inbox သည် ဗလာဖြစ်နေပါသည်။</p>`;
-        } else {
-            let messages = [];
-            snap.forEach(doc => messages.push(doc.data()));
-            messages.sort((a, b) => (b.time?.seconds || 0) - (a.time?.seconds || 0));
-
-            messages.forEach(data => {
-                // အချိန်ကို format ပြင်ခြင်း (ဥပမာ - 11:30 AM)
-                const date = data.time ? new Date(data.time.seconds * 1000) : new Date();
-                const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                const dateStr = date.toLocaleDateString();
+            let html = "";
+            arr.forEach(d => {
+                let iconUrl = "https://cdn-icons-png.flaticon.com/512/681/681123.png"; 
+                if(d.game === 'mlbb') iconUrl = "https://img.icons8.com/?size=100&id=17333&format=png&color=000000";
+                if(d.game === 'pubg') iconUrl = "https://img.icons8.com/color/96/pubg.png";
+                if(d.game === 'ff') iconUrl = "https://img.icons8.com/color/96/free-fire.png";
 
                 html += `
-                    <div style="background: linear-gradient(145deg, #111, #080808); padding: 18px; border-radius: 15px; border: 1px solid #222; border-left: 5px solid #FF8C00; margin-bottom: 15px; position: relative; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.5);">
-                        
-                        <div style="position: absolute; top: -20px; right: -20px; width: 60px; height: 60px; background: rgba(255,140,0,0.05); border-radius: 50%;"></div>
-
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #1a1a1a; padding-bottom: 8px;">
-                            <span style="color: #FF8C00; font-weight: bold; font-size: 0.75rem; letter-spacing: 1px;">OFFICIAL MESSAGE</span>
-                            <span style="color: #555; font-size: 0.65rem;">${timeStr} | ${dateStr}</span>
+                <div style="background:#111; margin:10px 15px; padding:15px; border-radius:15px; border:1px solid #222; display:flex; align-items:center; gap:15px; border-left: 5px solid ${d.status === 'completed' ? '#00ff00' : '#FF8C00'};">
+                    <img src="${iconUrl}" width="45" height="45" style="border-radius:10px; background:#000; padding:5px;">
+                    <div style="flex:1;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="color:#FF8C00; font-weight:bold; font-size:1rem;">${d.game.toUpperCase()}</span>
+                            <span style="color:${d.status === 'completed' ? '#00ff00' : '#FF8C00'}; font-size:0.8rem; font-weight:bold;">${d.status.toUpperCase()}</span>
                         </div>
-
-                        <p style="color: #eee; font-size: 0.95rem; line-height: 1.5; margin-bottom: 10px; word-wrap: break-word;">
-                            ${data.text}
-                        </p>
-
-                        <div style="text-align: right;">
-                            <span style="background: #FF8C00; color: #000; padding: 2px 10px; border-radius: 10px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase;">Sent by Admin</span>
-                        </div>
+                        <p style="font-size:0.85rem; color:#ccc; margin:3px 0;">${d.item} - ${d.price.toLocaleString()} Ks</p>
+                        <p style="font-size:0.7rem; color:#555;">ID: ${d.gameId} | #${d.orderId}</p>
                     </div>
-                `;
+                </div>`;
             });
+            container.innerHTML = html;
+        });
+    }
+
+    async function askGemini() {
+        const input = document.getElementById('ai-input');
+        const chatBox = document.getElementById('chat-box');
+        const userText = input.value.trim();
+        const q = userText.toLowerCase();
+
+        if (!userText) return;
+
+        chatBox.innerHTML += `<div class="msg msg-user">${userText}</div>`;
+        input.value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        setTimeout(async () => {
+            let reply = "";
+            let shouldNotifyOwner = false;
+
+            if (q.includes("hi") || q.includes("hello") || q.includes("မင်္ဂလာပါ") || q.includes("ဟလို")) {
+                reply = "မင်္ဂလာပါခင်ဗျာ! **SR Game Shop** ရဲ့ AI Assistant ဖြစ်ပါတယ်။ လူကြီးမင်းအတွက် Game Currency တွေနဲ့ ပတ်သက်ပြီး ဘာများ ကူညီပေးရမလဲခင်ဗျာ။";
+            } 
+            else if (q.includes("ပိုင်ရှင်") || q.includes("thu rain tun") || q.includes("owner") || q.includes("developer") || q.includes("ဘယ်သူလုပ်တာလဲ")) {
+                reply = "ဒီ Application ကို လူငယ် Developer တစ်ဦးဖြစ်တဲ့ **Thu Rain Tun** က ကိုယ်တိုင် ရေးသားဖန်တီးထားတာ ဖြစ်ပါတယ်။ SR Game Shop ကို အကောင်းဆုံး ဝန်ဆောင်မှုပေးနိုင်ဖို့ သူက အမြဲ ကြိုးစားနေပါတယ်။";
+            } 
+            else if (q.includes("ငွေဖြည့်") || q.includes("deposit") || q.includes("ပိုက်ဆံဖြည့်") || q.includes("kpay") || q.includes("wave") || q.includes("payment")) {
+                reply = "<b>ငွေဖြည့်သွင်းရန် အဆင့်ဆင့်:</b><br>၁။ Home Page ရှိ <b>'+ Add Money'</b> ကို နှိပ်ပါ။<br>၂။ Kpay (သို့မဟုတ်) Wave နံပါတ်ကို Copy ယူပြီး Ngwe Hlwe ပါ။<br>၃။ Screenshot ကို Form တွင် တွဲတင်ပေးပါ။<br>၄။ Admin မှ စစ်ဆေးပြီး ၅ မိနစ်အတွင်း Balance ထည့်ပေးပါလိမ့်မယ်။";
+            } 
+            else if (q.includes("order") || q.includes("အော်ဒါ") || q.includes("ဝယ်နည်း") || q.includes("တင်နည်း") || q.includes("ဘယ်လိုဝယ်ရမလဲ")) {
+                reply = "<b>အော်ဒါတင်နည်းလမ်းညွှန်:</b><br>၁။ မိမိဝယ်လိုသော Game (MLBB, Free Fire, PUBG) ကို ရွေးပါ။<br>၂။ Game ID နှင့် Server ID ကို သေချာစွာ ဖြည့်သွင်းပါ။<br>၃။ မိမိဝယ်ယူလိုသော ပမာဏကို ရွေးချယ်ပြီး <b>'Buy Now'</b> ကို နှိပ်ပါ။<br>၄။ ဝယ်ယူမှု အောင်မြင်/မအောင်မြင်ကို <b>'My Orders'</b> ကဏ္ဍမှာ စစ်ဆေးနိုင်ပါတယ်။";
+            }
+            else if (q.includes("game") || q.includes("ဂိမ်း") || q.includes("ml") || q.includes("pubg") || q.includes("free fire")) {
+                reply = "လောလောဆယ်မှာတော့ Mobile Legends, PUBG Mobile နဲ့ Free Fire ဂိမ်းတွေအတွက် Diamond နဲ့ UC တွေကို အသက်သာဆုံး ဈေးနှုန်းတွေနဲ့ ဝယ်ယူနိုင်ပါတယ်။";
+            }
+            else if (q.includes("ယုံရလား") || q.includes("ယုံကြည်") || q.includes("safe") || q.includes("scam")) {
+                reply = "<b>SR Game Shop</b> ဟာ ရာနှုန်းပြည့် ယုံကြည်စိတ်ချရပါတယ်။ Developer <b>Thu Rain Tun</b> ကိုယ်တိုင် တာဝန်ယူထားတာဖြစ်လို့ စိတ်အေးချမ်းသာစွာ ဝယ်ယူနိုင်ပါတယ်ခင်ဗျာ။";
+            }
+            else if (q.includes("password") || q.includes("စကားဝှက်") || q.includes("မေ့သွား") || q.includes("forgot")) {
+                reply = "Password မေ့သွားပါက <b>Contact Admin</b> မှတဆင့် ပိုင်ရှင် Thu Rain Tun ထံသို့ တိုက်ရိုက် ဆက်သွယ်ပေးပါ။ လူကြီးမင်း၏ ဖုန်းနံပါတ်ကို စစ်ဆေးပြီး Password အသစ် ပြန်လည် ထုတ်ပေးပါလိမ့်မယ်။";
+            }
+            else if (q.includes("ကြာမလား") || q.includes("ဘယ်လောက်ကြာ") || q.includes("waiting time")) {
+                reply = "ပုံမှန်အားဖြင့် အော်ဒါတင်ပြီး <b>၅ မိနစ်မှ ၁၅ မိနစ်</b> အတွင်း ရောက်ပါတယ်ခင်ဗျာ။ Admin မအားလပ်တဲ့ အချိန်မျိုးမှာတော့ အနည်းငယ် ကြာနိုင်ပါတယ်။";
+            }
+            else if (q.includes("မရောက်သေးဘူး") || q.includes("order မတက်ဘူး")) {
+                reply = "အော်ဒါတင်ပြီး မိနစ် ၂၀ ကျော်တဲ့အထိ မရောက်သေးရင် <b>Contact Admin</b> ခလုတ်ကနေတဆင့် Admin ကို တိုက်ရိုက်ဆက်သွယ် မေးမြန်းနိုင်ပါတယ်ခင်ဗျာ။";
+            }
+            else if (q.includes("ချစ်တယ်") || q.includes("i love you")) {
+                reply = "ကျွန်တော်တို့ <b>SR Game Shop</b> ကို အားပေးတဲ့အတွက် အများကြီး ချစ်ပါတယ်ခင်ဗျာ! ❤️ အမြဲတမ်း အကောင်းဆုံး ဝန်ဆောင်မှုပေးသွားမှာပါ။";
+            }
+            else if (q.includes("ကျေးဇူး") || q.includes("thanks") || q.includes("thank you")) {
+                reply = "ရပါတယ်ခင်ဗျာ။ လူကြီးမင်းရဲ့ အားပေးမှုက ကျွန်တော်တို့အတွက် အင်အားပါပဲ။";
+            }
+            else if (q.includes("back") || q.includes("ပြန်ထွက်")) {
+                reply = "စာမျက်နှာတစ်ခုမှ ပြန်ထွက်ရန် Header ရှိ <b>'← Back'</b> ခလုတ်ကို သုံးပါ။";
+            }
+            else {
+                reply = "တောင်းပန်ပါတယ်ခင်ဗျာ၊ အဲဒါကိုတော့ ကျွန်တော် မသိသေးပါဘူး။ လူကြီးမင်းရဲ့ မေးခွန်းကို ပိုင်ရှင် Thu Rain Tun ဆီကို တိုက်ရိုက် မေးမြန်းပေးပို့ထားပါတယ်။ မကြာခင် ပြန်လည်ဖြေကြားပေးပါ့မယ်။";
+                shouldNotifyOwner = true;
+            }
+
+            chatBox.innerHTML += `<div class="msg msg-ai">${reply}</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            let telegramMsg = `🔔 AI Chat Alert!\nUser: ${userText}\nAI Reply: ${reply.replace(/<br>/g, '\n')}`;
+            if (shouldNotifyOwner) {
+                telegramMsg = `⚠️ Unknown Question Alert!\nUser မေးတာ: ${userText}\nဒီမေးခွန်းကို AI မဖြေနိုင်လို့ စစ်ဆေးပေးပါ ပိုင်ရှင် Thu Rain Tun ခင်ဗျာ။`;
+            }
+            sendToTelegram(telegramMsg);
+
+        }, 800);
+    }
+
+    async function sendToTelegram(msg) {
+        const token = "8526730170:AAHX7Y0p0TMb_XgsmgG594XTDVWv4dtC5_E";
+        const chatId = "8189963333";
+        const url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+        try {
+            await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: msg,
+                    parse_mode: "HTML"
+                })
+            });
+        } catch (e) {
+            console.error("Telegram Error:", e);
         }
-        contentDiv.innerHTML = html;
-    });
-}
+    }
+
+    function loadInbox() {
+        showPage('page-msg');
+        const contentDiv = document.getElementById('msg-list-content');
+
+        db.collection("messages")
+          .where("to", "==", currentUser.phone)
+          .onSnapshot(snap => {
+            let html = "";
+
+            if (snap.empty) {
+                html = `<p style="text-align:center; color:#444; font-size: 0.8rem; margin-top: 20px;">Inbox သည် ဗလာဖြစ်နေပါသည်။</p>`;
+            } else {
+                let messages = [];
+                snap.forEach(doc => messages.push(doc.data()));
+                messages.sort((a, b) => (b.time?.seconds || 0) - (a.time?.seconds || 0));
+
+                messages.forEach(data => {
+                    const date = data.time ? new Date(data.time.seconds * 1000) : new Date();
+                    const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    const dateStr = date.toLocaleDateString();
+
+                    html += `
+                        <div style="background: linear-gradient(145deg, #111, #080808); padding: 18px; border-radius: 15px; border: 1px solid #222; border-left: 5px solid #FF8C00; margin-bottom: 15px; position: relative; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.5);">
+                            <div style="position: absolute; top: -20px; right: -20px; width: 60px; height: 60px; background: rgba(255,140,0,0.05); border-radius: 50%;"></div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #1a1a1a; padding-bottom: 8px;">
+                                <span style="color: #FF8C00; font-weight: bold; font-size: 0.75rem; letter-spacing: 1px;">OFFICIAL MESSAGE</span>
+                                <span style="color: #555; font-size: 0.65rem;">${timeStr} | ${dateStr}</span>
+                            </div>
+                            <p style="color: #eee; font-size: 0.95rem; line-height: 1.5; margin-bottom: 10px; word-wrap: break-word;">
+                                ${data.text}
+                            </p>
+                            <div style="text-align: right;">
+                                <span style="background: #FF8C00; color: #000; padding: 2px 10px; border-radius: 10px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase;">Sent by Admin</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            contentDiv.innerHTML = html;
+        });
+    }
 
 async function submitDepositOrder() {
-    const amount = document.getElementById('deposit-amount').value;
-    const btn = document.getElementById('submit-deposit-btn');
+        const amount = document.getElementById('deposit-amount').value;
+        const btn = document.getElementById('submit-deposit-btn');
 
-    // ၁။ ဖြည့်စွက်ရမယ့် အချက်အလက်များ ရှိ/မရှိ အရင်စစ်ဆေးခြင်း
-    if (!amount || amount <= 0) return alert("ငွေဖြည့်မည့် ပမာဏကို ထည့်ပါ။");
-    if (!selectedImageBase64) return alert("ငွေလွဲပြေစာ Screenshot ကို ထည့်သွင်းပေးပါ။");
+        if (!amount || amount <= 0) return alert("ငွေဖြည့်မည့် ပမာဏကို ထည့်ပါ။");
+        if (!selectedImageBase64) return alert("ငွေလွဲပြေစာ Screenshot ကို ထည့်သွင်းပေးပါ။");
 
-    // ခလုတ်ကို ခေတ္တပိတ်ပြီး စာသားပြောင်းခြင်း
-    btn.innerText = "Processing... ခဏစောင့်ပါ";
-    btn.disabled = true;
+        btn.innerText = "Processing... ခဏစောင့်ပါ";
+        btn.disabled = true;
 
-    try {
-        // ၂။ ImgBB API သို့ ပုံအား တင်ခြင်း
-        const formData = new FormData();
-        formData.append("image", selectedImageBase64);
-        
-        // ⚠️ မိမိရဲ့ Key အသစ်ရလာပါက အောက်က key= နောက်တွင် လဲလှယ်ပေးပါ
-        const imgbbRes = await fetch("https://api.imgbb.com/1/upload?key=06fed9e1368ff406bc578eb29ddb4c80", {
-            method: "POST",
-            body: formData
-        });
-        
-        const imgbbData = await imgbbRes.json();
-        
-        if (!imgbbData.success) {
-            console.error("ImgBB Error Details:", imgbbData);
-            return alert("ပုံတင်ခြင်း မအောင်မြင်ပါ။ ImgBB Key အသစ်လဲလှယ်ရန် လိုအပ်နိုင်ပါသည်။");
-        }
+        try {
+            const formData = new FormData();
+            formData.append("image", selectedImageBase64);
+            
+            const imgbbRes = await fetch("https://api.imgbb.com/1/upload?key=06fed9e1368ff406bc578eb29ddb4c80", {
+                method: "POST",
+                body: formData
+            });
+            
+            const imgbbData = await imgbbRes.json();
+            
+            if (!imgbbData.success) {
+                console.error("ImgBB Error Details:", imgbbData);
+                return alert("ပုံတင်ခြင်း မအောင်မြင်ပါ။ ImgBB Key အသစ်လဲလှယ်ရန် လိုအပ်နိုင်ပါသည်။");
+            }
 
-        const imageUrl = imgbbData.data.url; // Cloud ပေါ်က ပုံ Link ရပြီ
+            const imageUrl = imgbbData.data.url;
+            const telegramToken = "8526730170:AAHX7Y0p0TMb_XgsmgG594XTDVWv4dtC5_E";
+            const chatId = "8189963333";
+            const userId = currentUser ? (currentUser.id || currentUser.uid || 'မသိပါ') : 'Unknown';
 
-        // ၃။ Telegram Bot ဆီသို့ ဓာတ်ပုံနှင့် အချက်အလက်များ ပူးတွဲပေးပို့ခြင်း
-        const telegramToken = "8526730170:AAHX7Y0p0TMb_XgsmgG594XTDVWv4dtC5_E";
-        const chatId = "8189963333";
-        
-        // ဝယ်သူရဲ့ User ID ကို လက်ရှိ Logged-in ဝင်ထားတဲ့ နေရာကနေ ဆွဲထုတ်တာပါ
-        const userId = currentUser ? (currentUser.id || currentUser.uid || 'မသိပါ') : 'Unknown';
+            const captionMsg = `💰 <b>SR SHOP - ငွေဖြည့်မှုအသစ်</b>\n` +
+                               `--------------------------\n` +
+                               `🆔 ဝယ်သူ ID: <code>${userId}</code>\n` +
+                               `👤 ဝယ်သူအမည်: ${currentUser ? currentUser.name : 'Unknown'}\n` +
+                               `📞 ဖုန်းနံပါတ်: ${currentUser ? currentUser.phone : 'Unknown'}\n` +
+                               `💵 Ngwe Hlwes PaMarn: ${parseInt(amount).toLocaleString()} Ks\n` +
+                               `--------------------------`;
 
-        // Telegram မှာ ပြသမယ့် စာသား ပုံစံ (User ID ထည့်သွင်းထားပါသည်)
-        const captionMsg = `💰 <b>SR SHOP - ငွေဖြည့်မှုအသစ်</b>\n` +
-                           `--------------------------\n` +
-                           `🆔 ဝယ်သူ ID: <code>${userId}</code>\n` +
-                           `👤 ဝယ်သူအမည်: ${currentUser ? currentUser.name : 'Unknown'}\n` +
-                           `📞 ဖုန်းနံပါတ်: ${currentUser ? currentUser.phone : 'Unknown'}\n` +
-                           `💵 ငွေဖြည့်ပမာဏ: ${parseInt(amount).toLocaleString()} Ks\n` +
-                           `--------------------------`;
+            const teleRes = await fetch(`https://api.telegram.org/bot${telegramToken}/sendPhoto`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    photo: imageUrl,
+                    caption: captionMsg,
+                    parse_mode: "HTML"
+                })
+            });
+            
+            const teleData = await teleRes.json();
+            
+            if (!teleData.ok) {
+                console.error("Telegram Error Details:", teleData);
+                return alert("Telegram သို့ ပို့မရဖြစ်နေပါသည်။ Chat ID သို့မဟုတ် Token မှားယွင်းနေနိုင်ပါသည်။");
+            }
 
-        const teleRes = await fetch(`https://api.telegram.org/bot${telegramToken}/sendPhoto`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: chatId,
-                photo: imageUrl,     // ImgBB ကရလာတဲ့ Link
-                caption: captionMsg, // User ID ပါဝင်သော အချက်အလက် စာသား
-                parse_mode: "HTML"
-            })
-        });
-        
-        const teleData = await teleRes.json();
-        
-        if (!teleData.ok) {
-            console.error("Telegram Error Details:", teleData);
-            return alert("Telegram သို့ ပို့မရဖြစ်နေပါသည်။ Chat ID သို့မဟုတ် Token မှားယွင်းနေနိုင်ပါသည်။");
-        }
-
-  // ==================================================================
+              // ==================================================================
         // 🟢 [ဂျီဂျီ စစ်ဆေးဆဲစာသားဖြင့် ပြောင်းလဲပေးထားသော Alert စနစ်သစ်]
         // ==================================================================
         const alertOverlay = document.createElement("div");
@@ -829,32 +732,46 @@ async function submitDepositOrder() {
                 @keyframes popupAnim { from { transform:scale(0.8); opacity:0; } to { transform:scale(1); opacity:1; } }
             </style>
         `;
-        
-        document.body.appendChild(alertOverlay);
-        
-        // OK ခလုတ်နှိပ်မှ ဖောင်ကိုရှင်းပြီး Home Page ကို ပြန်သွားမည်
-        alertOverlay.querySelector("#close-alert-btn").onclick = function() {
-            alertOverlay.remove(); // Alert Box အား ပိတ်ခြင်း
             
-            // မူရင်းဖောင် ရှင်းလင်းရေး ကုဒ်များ
-            document.getElementById('deposit-amount').value = "";
-            document.getElementById('preview-img').style.display = 'none';
-            document.getElementById('upload-text').style.display = 'block';
-            selectedImageBase64 = null;
+            document.body.appendChild(alertOverlay);
             
-            showPage('page-home');
-        };
-        // ==================================================================
+            alertOverlay.querySelector("#close-alert-btn").onclick = function() {
+                alertOverlay.remove();
+                document.getElementById('deposit-amount').value = "";
+                document.getElementById('preview-img').style.display = 'none';
+                document.getElementById('upload-text').style.display = 'block';
+                selectedImageBase64 = null;
+                showPage('page-home');
+            };
 
-    } catch (error) {
-        console.error("System Crash Error:", error);
-        alert("စနစ်ချို့ယွင်းမှု ဖြစ်ပေါ်သွားပါသည်။ ကွန်ပျူတာ Console (F12) တွင် အမှားကို စစ်ဆေးပါ။");
-    } finally {
-        btn.innerText = "ငွေဖြည့်မှု တင်ပြမည်";
-        btn.disabled = false;
+        } catch (error) {
+            console.error("System Crash Error:", error);
+            alert("စနစ်ချို့ယွင်းမှု ဖြစ်ပေါ်သွားပါသည်။");
+        } finally {
+            btn.innerText = "ငွေဖြည့်မှု တင်ပြမည်";
+            btn.disabled = false;
+        }
     }
-}
 
+    // 🔄 Firebase မှ ဂိမ်း Icons များကို Realtime လှမ်းဖတ်ပြီး HTML ထဲတွင် သွားလဲပေးမည့် စနစ်
+    function listenToLiveGameIcons() {
+        db.collection("game_icons").onSnapshot((snapshot) => {
+            snapshot.forEach((doc) => {
+                const gameId = doc.id;
+                const iconUrl = doc.data().url;
+                const targetImg = document.getElementById(`icon-${gameId}`);
+                if (targetImg && iconUrl) {
+                    targetImg.src = iconUrl;
+                }
+            });
+        }, (error) => {
+            console.error("Customer Icons Load Error:", error);
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        listenToLiveGameIcons();
+    });
 </script>
 
 </body>

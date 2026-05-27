@@ -10,12 +10,12 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <style>
-        /* UI Theme: Gaming Black & Orange (100% Intact with Anime Animations) */
+        /* --- UI Theme: Gaming Black & Orange (100% Intact with Anime Animations) --- */
         * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
         body { background-color: #050505; color: #ffffff; overflow-x: hidden; }
-        .app-container { max-width: 450px; margin: auto; min-height: 100vh; position: relative; padding-bottom: 90px; background: #000; border: 1px solid #1a1a1a; }
+        .app-container { max-width: 450px; margin: auto; min-height: 100vh; position: relative; padding-bottom: 90px; background: #000; border: 1px solid #1a1a1a; overflow: hidden; }
 
-        /* --- Anime Animations & Core Effects --- */
+        /* --- STREAMING_CHUNK: Defining Anime Transitions and Side Drawer Styles... --- */
         @keyframes animePageFadeIn {
             from { opacity: 0; transform: scale(0.96) translateY(10px); filter: brightness(0.5); }
             to { opacity: 1; transform: scale(1) translateY(0); filter: brightness(1); }
@@ -78,11 +78,29 @@
 
         .category-label { padding: 12px 15px; color: #FF8C00; font-weight: bold; font-size: 0.85rem; background: #080808; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #111; margin-top: 10px; }
 
+        /* --- STREAMING_CHUNK: Setting Chat Area layout ... --- */
         /* Gemini Chat Area */
         .chat-area { height: 400px; overflow-y: auto; padding: 15px; background: #080808; border-radius: 15px; margin: 15px; border: 1px solid #222; display: flex; flex-direction: column; }
         .msg { margin-bottom: 15px; padding: 12px 16px; border-radius: 12px; max-width: 80%; line-height: 1.5; font-size: 0.9rem; animation: animeGridPop 0.25s ease-out both; }
         .msg-user { background: #FF8C00; color: #000; align-self: flex-end; border-bottom-right-radius: 2px; transform-origin: right bottom; }
         .msg-ai { background: #1a1a1a; color: #eee; align-self: flex-start; border-bottom-left-radius: 2px; border-left: 4px solid #FF8C00; transform-origin: left bottom; }
+
+        /* Typing indicator effect */
+        .typing-bubble {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: #FF8C00;
+            border-radius: 50%;
+            margin-right: 3px;
+            animation: bounce 1.2s infinite ease-in-out;
+        }
+        .typing-bubble:nth-child(2) { animation-delay: 0.2s; }
+        .typing-bubble:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
 
         /* Profile Style */
         .profile-info-box { background: #111; padding: 15px; border-radius: 12px; border: 1px solid #222; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; }
@@ -124,12 +142,173 @@
         /* Social Media Direct Links Card Style Box */
         .social-contact-box { display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; padding: 13px; border-radius: 10px; font-weight: bold; font-size: 0.9rem; margin-bottom: 10px; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .social-contact-box:active { transform: scale(0.95); }
+
+        /* --- STREAMING_CHUNK: Styling Left Sliding Menu (Drawer Sidebar) --- */
+        /* Left Sliding Sidebar Navigation Menu styling */
+        .sidebar {
+            position: absolute;
+            top: 0;
+            left: -285px;
+            width: 280px;
+            height: 100%;
+            background: #0c0c0c;
+            border-right: 2px solid #FF8C00;
+            z-index: 2000;
+            transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 8px 0 25px rgba(0, 0, 0, 0.8);
+        }
+        .sidebar.open {
+            left: 0;
+        }
+        .sidebar-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(2px);
+            z-index: 1999;
+            display: none;
+        }
+        .sidebar-overlay.show {
+            display: block;
+        }
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 16px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+            background: #111;
+            border: 1px solid #1a1a1a;
+        }
+        .sidebar-item:hover {
+            border-color: #FF8C00;
+            background: #181818;
+            color: #FF8C00;
+            transform: translateX(6px);
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.1);
+        }
+        .sidebar-item img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        /* Live Order Location Destination Preview Styles */
+        .order-preview-box {
+            background: #0d0d0d;
+            border-left: 4px solid #FF8C00;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px;
+            border-top: 1px solid #222;
+            border-right: 1px solid #222;
+            border-bottom: 1px solid #222;
+            animation: animeGridPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        /* Sidebar Scrollbar Tuning Styles */
+        .sidebar {
+            overflow-y: auto;
+        }
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #FF8C00;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
 
 <div class="app-container">
+
+    <!-- Sidebar Menu Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
     
+    <!-- Left Drawer Navigation Sidebar -->
+    <div id="side-menu" class="sidebar">
+        <div class="sidebar-header">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-weight: bold; color: #FF8C00; font-size: 1.25rem; letter-spacing: 0.5px;">SR SHOP MENU</span>
+            </div>
+            <button onclick="toggleSidebar(false)" style="background:none; border:none; color:#FF8C00; cursor:pointer; font-size:1.5rem; font-weight:bold; outline:none;">✕</button>
+        </div>
+
+        <!-- Sidebar Premium User Status Widget -->
+        <div id="sidebar-profile-card" style="background: linear-gradient(135deg, #141414, #0d0d0d); border: 1px solid #222; border-left: 3px solid #FF8C00; border-radius: 12px; padding: 14px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; animation: animeGridPop 0.3s ease both;">
+            <div id="sidebar-user-avatar" style="width: 42px; height: 42px; background: #FF8C00; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold; font-size: 1.15rem; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">G</div>
+            <div style="flex: 1; overflow: hidden;">
+                <div id="sidebar-user-name" style="font-size: 0.9rem; font-weight: bold; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Guest User</div>
+                <div id="sidebar-user-balance" style="font-size: 0.8rem; color: #FF8C00; font-weight: bold; margin-top: 2px;">0 Ks</div>
+            </div>
+        </div>
+        
+        <p style="font-size: 0.65rem; color: #555; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; padding-left: 5px;">Main Services</p>
+        <div class="sidebar-item" onclick="toggleSidebar(false); showPage('page-home')">
+            <img src="https://img.icons8.com/?size=100&id=102551&format=png&color=000000" alt="Home"> ပင်မစာမျက်နှာ
+        </div>
+        <div class="sidebar-item" onclick="toggleSidebar(false); showPage('page-deposit')">
+            <img src="https://img.icons8.com/?size=100&id=Yo9kOcztQ9xn&format=png&color=000000" alt="Add Money"> ငွေဖြည့်သွင်းရန်
+        </div>
+        <div class="sidebar-item" onclick="toggleSidebar(false); openHistoryView()">
+            <img src="https://img.icons8.com/?size=100&id=VbVaCDa9Nnb1&format=png&color=000000" alt="History"> အော်ဒါမှတ်တမ်း
+        </div>
+        <div class="sidebar-item" onclick="toggleSidebar(false); loadInbox(); showPage('page-msg')">
+            <img src="https://img.icons8.com/?size=100&id=BPFfi69JReUf&format=png&color=000000" alt="Message"> Message
+        </div>
+        
+        <p style="font-size: 0.65rem; color: #555; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; margin-top: 15px; margin-bottom: 8px; padding-left: 5px;">AI & Help</p>
+        <div class="sidebar-item" onclick="toggleSidebar(false); showPage('page-ai')">
+            <img src="https://img.icons8.com/?size=100&id=dOmpXIF68sld&format=png&color=000000" alt="AI"> SilentX AI Assistant
+        </div>
+        <div class="sidebar-item" onclick="toggleSidebar(false); showPage('page-profile')">
+            <img src="https://img.icons8.com/?size=100&id=NPW07SMh7Aco&format=png&color=000000"> Profile ကြည့်ရန်
+        </div>
+        <div class="sidebar-item" onclick="toggleSidebar(false); showPage('page-other')">
+            <img src="https://img.icons8.com/?size=100&id=13540&format=png&color=000000" alt="Other"> အခြားဝန်ဆောင်မှုများ
+        </div>
+
+        <p style="font-size: 0.65rem; color: #555; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; margin-top: 15px; margin-bottom: 8px; padding-left: 5px;">Security</p>
+        <div class="sidebar-item" onclick="toggleSidebar(false); handleLogout()" style="border-left: 2px solid #ff4444; color: #ff4444; background: rgba(255, 68, 68, 0.02);">
+            <img src="https://img.icons8.com/?size=100&id=8119&format=png&color=ff4444" alt="Logout"> အကောင့်ထွက်ရန်
+        </div>
+        
+        <div style="margin-top: auto; border-top: 1px solid #222; padding-top: 15px;">
+            <p style="font-size: 0.75rem; color: #555; text-align: center; font-weight: bold; letter-spacing: 0.5px; margin-bottom: 8px;">ADMIN: THU RAIN TUN</p>
+            <div style="display: flex; justify-content: center; gap: 15px;">
+                <a href="https://t.me/Tun_1224" target="_blank">
+                    <img src="https://img.icons8.com/?size=100&id=63306&format=png" width="32" height="32" alt="Telegram">
+                </a>
+                <a href="viber://chat?number=%2B959773768702" target="_blank">
+                    <img src="https://i.ibb.co/zVcdy4rz/In-Shot-20260527-100623497.png" width="32" height="32" alt="Viber">
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- --- STREAMING_CHUNK: Formatting Page Login Screen --- -->
     <div id="page-login" class="hidden page-animated" style="padding: 50px 30px; text-align: center;">
         <h1 style="color: #FF8C00; font-size: 2.5rem; margin-bottom: 5px; text-shadow: 0 0 15px rgba(255,140,0,0.3);">SR SHOP</h1>
         <p style="color: #555; margin-bottom: 40px;">Developed by Thu Rain Tun</p>
@@ -153,7 +332,7 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="18" style="margin-right: 8px;"> Telegram: @Tun_1224
             </a>
             <a href="viber://chat?number=%2B959773768702" target="_blank" class="social-contact-box" style="background: #7360f2;">
-                <img src="" width="18" style="margin-right: 8px;"> Viber: 09773768702
+                <img src="https://i.ibb.co/zVcdy4rz/In-Shot-20260527-100623497.png" width="18" style="margin-right: 8px;"> Viber: 09773768702
             </a>
         </div>
 
@@ -172,7 +351,11 @@
 
     <div id="page-home" class="hidden page-animated">
         <div class="header">
-            <span style="font-weight: bold; color: #FF8C00; font-size: 1.2rem; letter-spacing: 0.5px;">SR SHOP</span>
+            <!-- Sidebar Drawer Toggle Hamburger Button on the Left -->
+            <button onclick="toggleSidebar(true)" style="background:none; border:none; color:#FF8C00; cursor:pointer; font-size:1.4rem; display:flex; align-items:center;">
+                <img src="https://img.icons8.com/?size=100&id=3096&format=png&color=FF8C00" width="24" height="24" alt="Menu" style="filter: brightness(1.15);">
+            </button>
+            <span style="font-weight: bold; color: #FF8C00; font-size: 1.2rem; letter-spacing: 0.5px; flex-grow: 1; margin-left: 15px;">SR SHOP</span>
             <span id="user-header-name" style="background: #222; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">Guest</span>
         </div>
         
@@ -188,7 +371,7 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="18" style="margin-right: 8px;"> Contact Admin (Telegram)
             </a>
             <a href="viber://chat?number=%2B959773768702" target="_blank" class="social-contact-box" style="background: #7360f2; margin-bottom: 0;">
-                <img src="" width="18" style="margin-right: 8px;"> Contact Admin (Viber)
+                <img src="https://i.ibb.co/zVcdy4rz/In-Shot-20260527-100623497.png" width="18" style="margin-right: 8px;"> Contact Admin (Viber)
             </a>
         </div>
 
@@ -219,19 +402,35 @@
             <button onclick="showPage('page-home')" style="background:none; border:none; color:#FF8C00; cursor:pointer; font-weight:bold; font-size:1rem;">← Back</button>
             <span id="store-title" style="font-weight:bold;">Store</span>
         </div>
+        
+        <!-- Live Order Destination Indicator Section (မှာတဲ့နေရာပြပေးသော ကဒ်) -->
+        <div id="order-target-preview" class="order-preview-box" style="display: none;">
+            <p style="font-size: 0.75rem; color: #888; font-weight: bold; letter-spacing: 0.5px;">🎯 မှာယူမည့်နေရာ (ORDER DESTINATION TARGET)</p>
+            <div id="target-preview-text" style="font-size: 0.95rem; color: #FFF; font-weight: bold; margin-top: 5px; line-height: 1.4;">-</div>
+        </div>
+
         <div id="id-input-section" style="padding: 15px; background: #0a0a0a;">
             <div id="mlbb-inputs" class="hidden">
-                <input type="text" id="ml-id" class="input-field" placeholder="Player ID">
-                <input type="text" id="ml-server" class="input-field" placeholder="Server ID">
+                <input type="text" id="ml-id" class="input-field" placeholder="Player ID" oninput="updateOrderPreview('mlbb')">
+                <input type="text" id="ml-server" class="input-field" placeholder="Server ID" oninput="updateOrderPreview('mlbb')">
             </div>
-            <div id="pubg-inputs" class="hidden"><input type="text" id="pubg-id" class="input-field" placeholder="Character ID"></div>
-            <div id="ff-inputs" class="hidden"><input type="text" id="ff-id" class="input-field" placeholder="Free Fire UID"></div>
+            <div id="pubg-inputs" class="hidden">
+                <input type="text" id="pubg-id" class="input-field" placeholder="Character ID" oninput="updateOrderPreview('pubg')">
+            </div>
+            <div id="ff-inputs" class="hidden">
+                <input type="text" id="ff-id" class="input-field" placeholder="Free Fire UID" oninput="updateOrderPreview('ff')">
+            </div>
         </div>
         <div id="price-list-view"></div>
     </div>
 
     <div id="page-profile" class="hidden page-animated">
-        <div class="header"><span style="font-weight:bold;">Profile Settings</span></div>
+        <div class="header">
+            <button onclick="toggleSidebar(true)" style="background:none; border:none; color:#FF8C00; cursor:pointer; font-size:1.4rem; display:flex; align-items:center;">
+                <img src="https://img.icons8.com/?size=100&id=3096&format=png&color=FF8C00" width="24" height="24" alt="Menu" style="filter: brightness(1.15);">
+            </button>
+            <span style="font-weight:bold; flex-grow:1; margin-left:15px;">Profile Settings</span>
+        </div>
         <div style="padding: 20px;">
             <div style="text-align: center; margin-bottom: 25px;">
                 <div id="prof-avatar" style="width:80px; height:80px; background:#FF8C00; border-radius:50%; margin:0 auto 15px; display:flex; align-items:center; justify-content:center; color:#000; font-size:2rem; font-weight:bold;">U</div>
@@ -259,7 +458,7 @@
         <div id="history-content-container" style="padding-top: 5px; padding-bottom: 30px;"></div>
     </div>
 
- <div id="page-msg" class="hidden page-animated">
+    <div id="page-msg" class="hidden page-animated">
         <div class="header">
             <button onclick="showPage('page-home')" style="background:none; border:none; color:#FF8C00; cursor:pointer; font-weight:bold; font-size:1rem;" onmousedown="this.style.transform='scale(0.9)'" onmouseup="this.style.transform='scale(1)'">← Back</button>
             <span>Inbox Messages</span>
@@ -279,13 +478,13 @@
     <div id="page-ai" class="hidden page-animated">
         <div class="header">
             <button onclick="showPage('page-home')" style="background:none; border:none; color:#FF8C00; cursor:pointer; font-weight:bold; font-size:1rem;">← Back</button>
-            <span style="font-weight:bold;">✨ Gemini AI Assistant</span>
+            <span style="font-weight:bold;">✨ SilentX AI Assistant</span>
         </div>
         <div class="chat-area" id="chat-box">
-            <div class="msg msg-ai">မင်္ဂလာပါ။ SR Game Shop မှ ကြိုဆိုပါတယ်။ ဘာများကူညီပေးရမလဲခင်ဗျာ။</div>
+            <div class="msg msg-ai">🤖 **SilentX:** မင်္ဂလာပါခင်ဗျာ! 🌟 **SR Game Shop** ရဲ့ AI ဝန်ဆောင်မှုမှ ကြိုဆိုပါတယ်။ ကျွန်တော်ကတော့ **SilentX** ဖြစ်ပါတယ်။ ဘာများ ကူညီပေးရမလဲခင်ဗျာ။ 🚀</div>
         </div>
         <div style="padding: 15px; display: flex; gap: 10px; background: #111;">
-            <input type="text" id="ai-input" class="input-field" style="margin:0;" placeholder="မေးမြန်းလိုသည်များ...">
+            <input type="text" id="ai-input" class="input-field" style="margin:0;" placeholder="SilentX ကို မေးမြန်းလိုသည်များ..." onkeypress="if(event.key === 'Enter') askGemini()">
             <button class="btn-orange" style="width: 80px; margin: 0;" onclick="askGemini()">Send</button>
         </div>
     </div>
@@ -316,6 +515,36 @@
         </div>
     </div>
 
+    <!-- Page: Other Things (အခြားဝန်ဆောင်မှုများနှင့် အချက်အလက်များ) -->
+    <div id="page-other" class="hidden page-animated">
+        <div class="header">
+            <button onclick="showPage('page-home')" style="background:none; border:none; color:#FF8C00; cursor:pointer; font-weight:bold; font-size:1rem;">← Back</button>
+            <span style="font-weight:bold;">အခြားဝန်ဆောင်မှုများ (Other Services)</span>
+        </div>
+        <div style="padding: 20px;">
+            <div style="background: #111; padding: 18px; border-radius: 12px; border: 1px solid #222; margin-bottom: 15px; text-align: center; border-left: 4px solid #FF8C00;">
+                <h3 style="color:#FF8C00; margin-bottom:10px; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 8px;">🛡️ Customer Security</h3>
+                <p style="font-size: 0.85rem; color: #ccc; line-height: 1.6;">ကျွန်ုပ်တို့ထံမှ မှာယူသော ဝန်ဆောင်မှုတိုင်းကို Ngwe Hlwe မှန်ကန်ပါက ရာနှုန်းပြည့် အာမခံချက်ရှိစွာ တာဝန်ယူ ဆောင်ရွက်ပေးနေပါသည်ဗျာ။ အကောင့်ဘေးကင်းရေးကို ၁၀၀% အာမခံပါသည်။</p>
+            </div>
+            
+            <div style="background: #111; padding: 18px; border-radius: 12px; border: 1px solid #222; margin-bottom: 15px; text-align: center; border-left: 4px solid #FF8C00;">
+                <h3 style="color:#FF8C00; margin-bottom:10px; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 8px;">🕒 လုပ်ငန်းချိန် (Working Hours)</h3>
+                <p style="font-size: 0.85rem; color: #ccc; line-height: 1.6;">မနက် ၈:၀၀ နာရီ မှ ည ၁၀:၀၀ နာရီအထိ လူကြီးမင်းတို့၏ အော်ဒါများနှင့် ငွေဖြည့်မှုများကို အမြန်ဆုံး ဆောင်ရွက်ပေးလျက် ရှိပါသည်။</p>
+            </div>
+
+            <div style="background: #111; padding: 18px; border-radius: 12px; border: 1px solid #222; margin-bottom: 15px; border-left: 4px solid #FF8C00;">
+                <h3 style="color:#FF8C00; margin-bottom:15px; text-align: center; font-size: 1.1rem;">📞 အရေးပေါ် တိုက်ရိုက်ဆက်သွယ်ရန်</h3>
+                <a href="viber://chat?number=%2B959773768702" target="_blank" class="social-contact-box" style="background: #7360f2; display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                    <img src="https://i.ibb.co/zVcdy4rz/In-Shot-20260527-100623497.png" width="22" style="margin-right: 8px;"> Viber တိုက်ရိုက်ဆက်သွယ်ရန်
+                </a>
+                <a href="https://t.me/Tun_1224" target="_blank" class="social-contact-box" style="background: #0088cc; display: flex; align-items: center; justify-content: center;">
+                    <img src="https://img.icons8.com/?size=100&id=63306&format=png" width="22" style="margin-right: 8px;"> Telegram တိုက်ရိုက်ဆက်သွယ်ရန်
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Tab Bar -->
     <div id="nav-bar" class="bottom-nav hidden">
         <div class="nav-tab" id="tab-page-home" onclick="showPage('page-home')">
             <img src="https://img.icons8.com/?size=100&id=12229&format=png&color=000000" alt="Home"><span>Home</span>
@@ -331,6 +560,7 @@
 </div>
 
 <script>
+    // --- STREAMING_CHUNK: Instantiating Firebase config parameters ---
     // --- Firebase Initialization Engine Configurations ---
     const firebaseConfig = {
       apiKey: "AIzaSyALqp9IxejZ2b4d3vJMGuwV0RWPxpQRsaU",
@@ -350,6 +580,53 @@
     let selectedImageBase64 = null;
     let currentHistoryTab = "topup"; 
 
+    // --- STREAMING_CHUNK: Defining UI Helper functions (sidebar and input updates) ---
+    // Sidebar drawer control logic
+    function toggleSidebar(open) {
+        const sidebar = document.getElementById("side-menu");
+        const overlay = document.getElementById("sidebar-overlay");
+        if (open) {
+            sidebar.classList.add("open");
+            overlay.classList.add("show");
+        } else {
+            sidebar.classList.remove("open");
+            overlay.classList.remove("show");
+        }
+    }
+
+    // Dynamic Live Order Destination Preview update (မှာတဲ့နေရာပြပေးသော logic)
+    function updateOrderPreview(game) {
+        const previewBox = document.getElementById('order-target-preview');
+        const previewText = document.getElementById('target-preview-text');
+        
+        let previewHtml = "";
+        if (game === 'mlbb') {
+            const id = document.getElementById('ml-id').value.trim();
+            const server = document.getElementById('ml-server').value.trim();
+            if (id) {
+                previewHtml = `🎮 Game: <b>Mobile Legends</b><br>🆔 Player ID: <span style="color:#FF8C00;">${id}</span> ${server ? ` | Server: <span style="color:#FF8C00;">(${server})</span>` : ''}`;
+            }
+        } else if (game === 'pubg') {
+            const id = document.getElementById('pubg-id').value.trim();
+            if (id) {
+                previewHtml = `🎮 Game: <b>PUBG Mobile</b><br>🆔 Character ID: <span style="color:#FF8C00;">${id}</span>`;
+            }
+        } else if (game === 'ff') {
+            const id = document.getElementById('ff-id').value.trim();
+            if (id) {
+                previewHtml = `🎮 Game: <b>Free Fire</b><br>🆔 UID: <span style="color:#FF8C00;">${id}</span>`;
+            }
+        }
+        
+        if (previewHtml) {
+            previewText.innerHTML = previewHtml;
+            previewBox.style.display = 'block';
+        } else {
+            previewBox.style.display = 'none';
+        }
+    }
+
+    // --- STREAMING_CHUNK: Setup Overlaid confirmation modal ... ---
     // --- Overlaid System Dialog Confirmation Promises Box ---
     function showCustomConfirm(message, isAlertMode = false) {
         return new Promise((resolve) => {
@@ -403,17 +680,19 @@
         } else { showPage('page-login'); }
     };
 
+    // --- STREAMING_CHUNK: Direct Page Rendering display logic ---
     function showPage(id) {
         document.querySelectorAll('.app-container > div').forEach(div => {
-            if(div.id !== 'nav-bar') div.classList.add('hidden');
+            if(div.id !== 'nav-bar' && div.id !== 'side-menu' && div.id !== 'sidebar-overlay') div.classList.add('hidden');
         });
         
         const targetPage = document.getElementById(id);
-        targetPage.classList.remove('hidden');
-        
-        targetPage.style.animation = 'none';
-        targetPage.offsetHeight; 
-        targetPage.style.animation = null;
+        if (targetPage) {
+            targetPage.classList.remove('hidden');
+            targetPage.style.animation = 'none';
+            targetPage.offsetHeight; 
+            targetPage.style.animation = null;
+        }
 
         const nav = document.getElementById('nav-bar');
         if (id === 'page-login' || id === 'page-register' || id === 'page-forgot') {
@@ -440,6 +719,7 @@
         });
     }
 
+    // --- STREAMING_CHUNK: Configuring Register logic ... ---
     async function handleRegister() {
         const name = document.getElementById('reg-name').value.trim();
         const phone = document.getElementById('reg-phone').value.trim();
@@ -496,15 +776,34 @@
                 document.getElementById('prof-display-id').innerText = "#" + currentUser.id;
                 document.getElementById('prof-display-balance').innerText = balText;
                 document.getElementById('prof-avatar').innerText = currentUser.name[0].toUpperCase();
+
+                // Dynamic Sidebar Widgets Update Engagements
+                const sidebarName = document.getElementById('sidebar-user-name');
+                const sidebarBal = document.getElementById('sidebar-user-balance');
+                const sidebarAvy = document.getElementById('sidebar-user-avatar');
+
+                if (sidebarName) sidebarName.innerText = currentUser.name;
+                if (sidebarBal) sidebarBal.innerText = balText;
+                if (sidebarAvy) sidebarAvy.innerText = currentUser.name[0].toUpperCase();
             }
         });
     }
 
+    // --- STREAMING_CHUNK: Setup Store View and Selection logic ---
     function openStore(game) {
         const listView = document.getElementById('price-list-view');
         document.getElementById('store-title').innerText = game.toUpperCase() + " TOP UP";
         listView.innerHTML = '<p style="text-align:center; padding:20px; color:#FF8C00;">Loading prices...</p>';
         
+        // Hide/Reset Location preview card at first
+        document.getElementById('order-target-preview').style.display = 'none';
+        
+        // Reset Inputs value
+        document.getElementById('ml-id').value = "";
+        document.getElementById('ml-server').value = "";
+        document.getElementById('pubg-id').value = "";
+        document.getElementById('ff-id').value = "";
+
         document.querySelectorAll('#id-input-section > div').forEach(div => div.classList.add('hidden'));
         const gameInput = document.getElementById(game + '-inputs');
         if(gameInput) gameInput.classList.remove('hidden');
@@ -555,13 +854,14 @@
         el.innerHTML += gridHtml;
     }
 
+    // --- STREAMING_CHUNK: Setup order processing functions ... ---
     async function processOrder(game, item, price) {
         if(currentUser.balance < price) return await callCustomAlert("❌ လက်ကျန်ငွေ မလုံလောက်ပါ။ ကျေးဇူးပြု၍ အရင်ငွေဖြည့်သွင်းပေးပါ။");
         
         let gId = (game === 'mlbb') ? document.getElementById('ml-id').value.trim() + "(" + document.getElementById('ml-server').value.trim() + ")" : document.getElementById(game + '-id').value.trim();
         if(!gId || gId === "()") return await callCustomAlert("⚠️ ဂိမ်း Player ID ကို မှန်ကန်စွာ ဖြည့်စွက်ပေးပါ။");
         
-        const userConfirmed = await showCustomConfirm(`${item} အား ဝယ်ယူရန် သေချာပါသလား?\nကျသင့်ငွေ: ${price.toLocaleString()} Ks နှုတ်ယူသွားမည် ဖြစ်သည်။`);
+        const userConfirmed = await showCustomConfirm(`${item} အား ဝယ်ယူရန် သေချာပါသလား?\n\n🎯 မှာယူမည့်နေရာ: ${gId}\n💰 ကျသင့်ငွေ: ${price.toLocaleString()} Ks နှုတ်ယူသွားမည် ဖြစ်သည်။`);
         
         if(userConfirmed) {
             const oId = "SR" + Math.floor(1000 + Math.random() * 9000);
@@ -575,6 +875,7 @@
                             `📝 Order ID: #${oId}\n` +
                             `🎮 ဂိမ်း: ${game.toUpperCase()}\n` +
                             `👤 ဝယ်သူ: ${currentUser.name}\n` +
+                            `📞 Phone Number: ${currentUser.phone}\n` +
                             `🆔 Game ID: ${gId}\n` +
                             `💰 ကျသင့်ငွေ: ${price} Ks`;
                 sendToTelegram(msg);
@@ -600,6 +901,7 @@
         }
     }
 
+    // --- STREAMING_CHUNK: Fetching game topup orders ... ---
     function loadTopupOrdersHistory() {
         const container = document.getElementById('history-content-container');
         container.innerHTML = '<p style="text-align:center; padding:30px; color:#FF8C00;">ဂိမ်းအော်ဒါမှတ်တမ်းများ ရယူနေသည်...</p>';
@@ -653,7 +955,6 @@
             let arr = []; 
             snap.forEach(doc => {
                 let data = doc.data();
-                // 💥 Document ID (သို့) ကိုယ်ပိုင် ID ကို ယူပြီး ကတ်ပြားထဲမှာ ပြသရန် ထည့်သွင်းခြင်း
                 data.docId = doc.id; 
                 arr.push(data);
             });
@@ -666,7 +967,6 @@
                 const delay = idx * 0.04;
                 const dateStr = d.time ? new Date(d.time.seconds * 1000).toLocaleDateString() : 'ခုနကတင်';
                 
-                // 🆔 Order ID ပုံစံတိုလေး ပြုလုပ်ခြင်း (စာလုံးအရှည်ကြီး မဖြစ်အောင် ရှေ့ ၆ လုံးပဲ ဖြတ်ယူထားပါတယ်)
                 const shortOrderId = d.docId ? d.docId.substring(0, 7).toUpperCase() : "SR" + Math.floor(1000 + Math.random() * 9000);
 
                 html += `
@@ -687,12 +987,13 @@
         });
     }
 
-      async function submitDepositOrder() {
+    // --- STREAMING_CHUNK: Handling imageBB image hosting uploads ... ---
+    async function submitDepositOrder() {
         const amount = document.getElementById('deposit-amount').value.trim();
         const btn = document.getElementById('submit-deposit-btn');
 
-        if (!amount || amount <= 0) return await callCustomAlert("⚠️ ကျေးဇူးပြု၍ ငွေဖြည့်ပမာဏကို မှန်ကန်စွာ ဖြည့်သွင်းပေးပါ။");
-        if (!selectedImageBase64) return await callCustomAlert("⚠️ ကျေးဇူးပြု၍ ငွေလွဲပြေစာ Screenshot ပုံတင်ပေးပါ။");
+        if (!amount || amount <= 0) return await callCustomAlert("⚠️ ကျေးဇူးပြု၍ Ngwe Phyae ပမာဏကို မှန်ကန်စွာ ဖြည့်သွင်းပေးပါ။");
+        if (!selectedImageBase64) return await callCustomAlert("⚠️ ကျေးဇူးပြု၍ Ngwe Hlweပြေစာ Screenshot ပုံတင်ပေးပါ။");
 
         btn.innerText = "Processing... ခဏစောင့်ပါ";
         btn.disabled = true;
@@ -713,7 +1014,6 @@
             const chatId = "8189963333";
             const userId = currentUser ? (currentUser.id || 'မသိပါ') : 'Unknown';
 
-            // 1. Firebase ထဲသို့ ဒေတာသိမ်းဆည်းပြီး Document Ref ID ကို ရယူခြင်း
             const depositDocRef = await db.collection("deposits").add({
                 userId: userId, 
                 name: currentUser.name, 
@@ -724,20 +1024,18 @@
                 time: firebase.firestore.FieldValue.serverTimestamp()
             });
 
-            // 2. ရရှိလာသော Firebase ID အား စာလုံးအရှည်ကြီးမဖြစ်အောင် ရှေ့ ၇ လုံး ဖြတ်ယူပြီး ID တို ဖန်တီးခြင်း
             const docId = depositDocRef.id;
             const shortOrderId = docId.substring(0, 7).toUpperCase();
 
-            // 3. Telegram Message စာသားဖော်မတ် ပြင်ဆင်ခြင်း
-            const captionMsg = `💰 <b>SR SHOP - ငွေဖြည့်မှုအသစ်တင်ပြချက်</b>\n` +
-                               `--------------------------\n` +
+              const captionMsg = `💰 <b>SR SHOP - ငွေဖြည့်မှုအသစ်</b>\n` +  
+                   `--------------------------\n` + 
                                `🆔 <b>Deposit ID: #${shortOrderId}</b>\n` +
-                               `👤 ဝယ်သူအမည်: ${currentUser.name}\n` +
-                               `📱 ဖုန်းနံပါတ်: <code>${currentUser.phone}</code>\n` +
-                               `💵 ငွေလွဲပမာဏ: <b>${parseInt(amount).toLocaleString()} Ks</b>\n\n` +
-                               `📌 <i>Admin ဆုံးဖြတ်ချက်ပေးရန် အောက်ပါခလုတ်များကို နှိပ်ပါ -</i>`;
+                               `👤 Customer: ${currentUser.name}\n` +
+                               `📱 Phone: <code>${currentUser.phone}</code>\n` +
+                               `🧑‍💻 User ID: <code>${currentUser.id}</code>\n` +  
+                               `💵 Amount: <b>${parseInt(amount).toLocaleString()} Ks</b>\n\n` +
+                               `📌 <i>Admin Decision buttons:</i>`;
 
-            // 4. Admin အသုံးပြုရန် Confirm နှင့် Reject Button Links များ ထည့်သွင်းတည်ဆောက်ခြင်း
             const inlineKeyboard = {
                 inline_keyboard: [
                     [
@@ -747,7 +1045,6 @@
                 ]
             };
 
-            // 5. Telegram Bot ထံသို့ ပုံ၊ စာသားနှင့် Admin လုပ်ဆောင်ချက်ခလုတ်များ ပေးပို့ခြင်း
             const teleRes = await fetch(`https://api.telegram.org/bot${telegramToken}/sendPhoto`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -767,7 +1064,6 @@
                 return alert("Telegram သို့ ပို့မရဖြစ်နေပါသည်။ Chat ID သို့မဟုတ် Token မှားယွင်းနေနိုင်ပါသည်။");
             }
             
-            // 6. Customer ဘက်တွင် အောင်မြင်ကြောင်းပြသမည့် စတိုင်လ်မြင့် Alert Overlay Box
             const alertOverlay = document.createElement("div");
             alertOverlay.style = "position:fixed; top:0; left:0; width:100%; height:100vh; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; z-index:9999999;";
             alertOverlay.innerHTML = `
@@ -777,24 +1073,17 @@
                     <p style="font-size:0.85rem; color:#FF8C00; font-weight:bold; margin-bottom:12px; letter-spacing:0.5px;">
                         Deposit ID: #${shortOrderId}
                     </p>
-             <p style="font-size:0.9rem; line-height:1.6; color:#ccc; text-align:left; margin:0 0 20px 0; white-space:pre-line;">
-                    လူကြီးမင်း တင်ပြထားသော‌‌ 
-                   ငွေဖြည့်မှုတောင်ဆိုချက်ကို
-                   တာဝန်ရှိသူများမှ
-                   သေသေချာချာ စစ်ဆေးပေးနေပါပြီဗျာ။
+                    <p style="font-size:0.9rem; line-height:1.6; color:#ccc; text-align:left; margin:0 0 20px 0; white-space:pre-line;">
+                        လူကြီးမင်း တင်ပြထားသော ငွေဖြည့်မှုတောင်းဆိုချက်ကို တာဝန်ရှိသူများမှ သေသေချာချာ စစ်ဆေးပေးနေပါပြီဗျာ။
 
-                    လုပ်ငန်းစဉ်သည် အများဆုံး ၁၅ မိနစ်ခန့်သာ ကြာမြင့်မည်ဖြစ်ပြီး၊ လွှဲပြောင်းမှု မှန်ကန်ပါက ၁၅ မိနစ်အတွင်း လူကြီးမင်း၏ Account ထဲသို့ ပိုက်ဆံ ထည့်သွင်းပေးသွားမည် ဖြစ်ပါသည်။
+                        လုပ်ငန်းစဉ်သည် အများဆုံး ၁၅ မိနစ်ခန့်သာ ကြာမြင့်မည်ဖြစ်ပြီး၊ လွှဲပြောင်းမှု မှန်ကန်ပါက ၁၅ မိနစ်အတွင်း လူကြီးမင်း၏ Account ထဲသို့ ပိုက်ဆံ ထည့်သွင်းပေးသွားမည် ဖြစ်ပါသည်။
 
-                 📊 သင့်ငွေဖြည့်သွင်းမှု အခြေအနေကို 'ငွေဖြည့်မှုမှတ်တမ်း ကြည့်ရန်' ခလုတ်တွင် အချိန်မရွေး ဝင်ရောက်စစ်ဆေးနိုင်ပါသည်။
+                        📊 သင့်ငွေဖြည့်သွင်းမှု အခြေအနေကို 'ငွေဖြည့်မှုမှတ်တမ်း ကြည့်ရန်' ခလုတ်တွင် အချိန်မရွေး ဝင်ရောက်စစ်ဆေးနိုင်ပါသည်။
 
-             SR SHOP ကို ယုံကြည်စွာ အသုံးပြုပေးသည့်အတွက် ကျေးဇူးအထူးတင်ရှိပါသည်ဗျာ။ 🙏
-                </p>
-                
-                <button id="close-alert-btn" style="background:linear-gradient(135deg, #ff8c00, #e06c00); color:#fff; border:none; width:100%; padding:12px; border-radius:8px; font-weight:bold; font-size:1rem; cursor:pointer;">အိုကေ</button>
-            </div>
-            <style>
-                @keyframes popupAnim { from { transform:scale(0.8); opacity:0; } to { transform:scale(1); opacity:1; } }
-            </style>
+                        SR SHOP ကို ယုံကြည်စွာ အသုံးပြုပေးသည့်အတွက် ကျေးဇူးအထူးတင်ရှိပါသည်ဗျာ။ 🙏
+                    </p>
+                    <button id="close-alert-btn" style="background:linear-gradient(135deg, #ff8c00, #e06c00); color:#fff; border:none; width:100%; padding:12px; border-radius:8px; font-weight:bold; font-size:1rem; cursor:pointer;">အိုကေ</button>
+                </div>
             `;
             document.body.appendChild(alertOverlay);
             
@@ -816,8 +1105,26 @@
         }
     }
 
+    // Simple markdown to HTML parser for beautiful replies in Burmese
+    function formatAIPostMessage(text) {
+        let cleanText = text;
+        // Escape HTML
+        cleanText = cleanText.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        // Re-allow basic tags we construct
+        // Convert markdown bold (**bold**) to HTML bold
+        cleanText = cleanText.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        // Convert bullet lines
+        cleanText = cleanText.replace(/^\s*[\-\*•]\s*(.*?)$/gm, '• $1');
+        // Convert line breaks
+        cleanText = cleanText.replace(/\n/g, '<br>');
+        return cleanText;
+    }
 
-    async function askGemini() {
+    
+        const apiKey = ""; // Kept empty as per core principles; the environment injects it.
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+// --- STREAMING_CHUNK: Setup Beautiful Gemini SilentX AI Integration ---
+async function askGemini() {
         const input = document.getElementById('ai-input');
         const chatBox = document.getElementById('chat-box');
         const userText = input.value.trim();
@@ -839,7 +1146,7 @@
             else if (q.includes("ပိုင်ရှင်") || q.includes("thu rain tun") || q.includes("owner") || q.includes("developer") || q.includes("ဘယ်သူလုပ်တာလဲ")) {
                 reply = "ဒီ Application ကို လူငယ် Developer တစ်ဦးဖြစ်တဲ့ **Thu Rain Tun** က ကိုယ်တိုင် ရေးသားဖန်တီးထားတာ ဖြစ်ပါတယ်။ SR Game Shop ကို အကောင်းဆုံး ဝန်ဆောင်မှုပေးနိုင်ဖို့ သူက အမြဲ ကြိုးစားနေပါတယ်။";
             } 
-            else if (q.includes("ငွေဖြည့်") || q.includes("deposit") || q.includes("ပိုက်ဆံဖြည့်") || q.includes("kpay") || q.includes("wave") || q.includes("payment")) {
+            else if (q.includes("ငွေဖြည့်") || q.includes("deposit") || q.includes("ပိုက်ဆံဖြည့်နည်") || q.includes("kpay") || q.includes("wave") || q.includes("payment")) {
                 reply = "<b>ငွေဖြည့်သွင်းရန် အဆင့်ဆင့်:</b><br>၁။ Home Page ရှိ <b>'+ Add Money'</b> ကို နှိပ်ပါ။<br>၂။ Kpay (သို့မဟုတ်) Wave နံပါတ်ကို Copy ယူပြီး Ngwe Hlwe ပါ။<br>၃။ Screenshot ကို Form တွင် တွဲတင်ပေးပါ။<br>၄။ Admin မှ စစ်ဆေးပြီး ၅ မိနစ်အတွင်း Balance ထည့်ပေးပါလိမ့်မယ်။";
             } 
             else if (q.includes("order") || q.includes("အော်ဒါ") || q.includes("ဝယ်နည်း") || q.includes("တင်နည်း") || q.includes("ဘယ်လိုဝယ်ရမလဲ")) {
@@ -892,6 +1199,7 @@
         try { await fetch(`https://api.telegram.org/bot${token}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: "HTML" }) }); } catch (e) {}
     }
 
+    // --- STREAMING_CHUNK: Setup Inbox Database fetching logic ---
     // --- Message Box (Inbox) Engine with Custom Time and Welcome Letter Display ---
     function loadInbox() {
         showPage('page-msg');
@@ -936,6 +1244,7 @@
         });
     }
 
+    // --- STREAMING_CHUNK: Setup game icons loading trigger event ... ---
     document.addEventListener("DOMContentLoaded", () => {
         db.collection("game_icons").onSnapshot((snapshot) => {
             snapshot.forEach((doc) => {

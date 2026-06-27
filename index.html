@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SR Game Shop - Owner: Thu Rain Tun</title>
     
+    <!-- Import Firebase Web SDK v8 Library Modules -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     
@@ -31,6 +33,11 @@
         @keyframes pulseRed {
             0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
             50% { transform: scale(1.15); box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+        }
+
+        @keyframes pulseGreen {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
         }
 
         .page-animated {
@@ -423,7 +430,7 @@
             white-space: pre-wrap;
         }
 
-        /* photo_2026-06-11_22-16-14.jpg Info button style */
+        /* info button style */
         .order-info-btn {
             background: linear-gradient(135deg, #ef4444, #b91c1c);
             color: #ffffff;
@@ -558,7 +565,7 @@
         <h2 style="color: #FF8C00; margin-bottom: 20px;">Register Account</h2>
         <input type="text" id="reg-name" class="input-field" placeholder="နာမည်အပြည့်အစုံ">
         <input type="text" id="reg-phone" class="input-field" placeholder="ဖုန်းနံပါတ်">
-        <input type="password" id="reg-pass" class="input-field" placeholder="စကားဝှက်">
+        <input type="password" id="reg-pass" class="input-field" placeholder="စကားဝှက် (အနည်းဆုံး ၈ လုံး)">
         <input type="password" id="reg-confirm" class="input-field" placeholder="စကားဝှက်ကို ထပ်မံဖြည့်ပါ">
         <button class="btn-orange" onclick="handleRegister()">Register</button>
         <p style="margin-top: 20px; color: #888; cursor: pointer;" onclick="showPage('page-login')">Login ပြန်ဝင်ရန်</p>
@@ -588,7 +595,7 @@
             <span id="user-header-name" style="background: #222; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">Guest</span>
         </div>
         
-        <!-- NEW: Download App Installation Banner Link -->
+        <!-- NEW: Download App Installation Banner Link (Updated dynamically) -->
         <div class="mx-4 my-2 p-3.5 bg-gradient-to-r from-[#111] to-[#1a1a1a] rounded-xl border-2 border-dashed border-[#FF8C00] shadow-xl flex items-center justify-between">
             <div class="flex items-center gap-2.5">
                 <span class="text-2xl">📱</span>
@@ -597,25 +604,42 @@
                     <p class="text-[10px] text-neutral-400">ပိုမိုမြန်ဆန်သွက်လက်စွာ အသုံးပြုရန်</p>
                 </div>
             </div>
-            <a href="https://github.com/monthein70-cmyk/SR-Game-Shop/raw/refs/heads/main/SR%20Game%20Shop_1_1.0%20(1).apk" target="_blank" class="bg-[#FF8C00] hover:bg-[#e07b00] text-black text-xs font-black px-3.5 py-2 rounded-lg flex items-center gap-1 transition-all active:scale-95 shadow-md">
+            <a href="https://github.com/monthein70-cmyk/SR-Game-Shop/raw/refs/heads/main/srgameshop32.apk" target="_blank" class="bg-[#FF8C00] hover:bg-[#e07b00] text-black text-xs font-black px-3.5 py-2 rounded-lg flex items-center gap-1 transition-all active:scale-95 shadow-md">
                 📥 Install App
             </a>
         </div>
 
-        <!-- DYNAMIC DISCOUNT PROMOTION ANNOUNCEMENT BANNER -->
-        <div id="home-discount-banner" class="hidden mx-4 my-2 p-3.5 bg-gradient-to-r from-[#111] to-[#1a1a1a] rounded-xl border-2 border-emerald-500/40 shadow-xl flex items-center gap-3 animate-pulse">
-            <span class="text-2xl">🔥</span>
-            <div class="text-left flex-1">
-                <p class="text-xs text-emerald-400 font-extrabold uppercase tracking-wider">SPECIAL DISCOUNT EVENT</p>
-                <p id="home-discount-banner-text" class="text-xs text-white font-medium mt-0.5">Discount လျှော့ချပေးထားပါတယ်ဗျာ။</p>
+        <!-- DYNAMIC DISCOUNT PROMOTION ANNOUNCEMENT BANNER (Glowing Style) -->
+        <div id="home-discount-banner" class="hidden mx-4 my-2 p-3.5 bg-gradient-to-r from-[#111] to-[#14231b] rounded-xl border-2 border-emerald-500 shadow-xl flex items-center gap-3 relative overflow-hidden">
+            <div class="absolute -right-3 -bottom-3 bg-emerald-500/10 w-12 h-12 rounded-full border border-emerald-500/20"></div>
+            <span class="text-3xl animate-bounce">🔥</span>
+            <div class="text-left flex-1 z-10">
+                <p class="text-xs text-emerald-400 font-black uppercase tracking-wider flex items-center gap-1.5">
+                    <span>SPECIAL DISCOUNT EVENT</span>
+                    <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full inline-block" style="animation: pulseGreen 1.5s infinite"></span>
+                </p>
+                <p id="home-discount-banner-text" class="text-xs text-white font-bold mt-0.5">Discount လျှော့ချပေးထားပါတယ်ဗျာ။</p>
+            </div>
+        </div>
+
+        <!-- NEW USER DISCOUNT / GENERAL PROMO BANNER (Admin Toggleable) -->
+        <div id="home-promo-banner" class="hidden mx-4 my-2 p-3.5 bg-gradient-to-r from-[#111] to-[#1a2636] rounded-xl border-2 border-[#FF8C00] shadow-xl flex items-center gap-3 relative overflow-hidden">
+            <div class="absolute -right-3 -bottom-3 bg-[#FF8C00]/10 w-12 h-12 rounded-full border border-[#FF8C00]/20"></div>
+            <span class="text-3xl animate-bounce">🎁</span>
+            <div class="text-left flex-1 z-10">
+                <p class="text-xs text-[#FF8C00] font-black uppercase tracking-wider flex items-center gap-1.5">
+                    <span>NEW USER DISCOUNT PROMO</span>
+                    <span class="w-2.5 h-2.5 bg-[#FF8C00] rounded-full inline-block" style="animation: pulseRed 1.5s infinite"></span>
+                </p>
+                <p id="home-promo-banner-text" class="text-xs text-white font-bold mt-0.5">အကောင့်သစ်များအတွက် အထူး Discount ရှိပါတယ်ဗျာ။</p>
             </div>
         </div>
 
         <!-- OPERATING HOURS BANNER -->
         <div class="mx-4 my-2 p-3 bg-gradient-to-r from-neutral-900 to-[#151515] rounded-xl border border-[#FF8C00]/30 shadow-lg text-center animate-pulse">
             <p class="text-xs text-[#FF8C00] font-black uppercase tracking-wider">🕒 OPERATING HOURS (လုပ်ငန်းချိန်) 🕒</p>
-            <p class="text-xs text-white font-medium mt-1">📥 Order တင်ချိန်: <span class="text-[#FF8C00] font-bold">မနက် 8:00 နာရီ မှ ည 10:00 နာရီ ထိ</span></p>
-            <p class="text-xs text-neutral-400 mt-1">💰 ပိုက်ဆံဖြည့်ချိန် (Ngwe Phyae): <span class="text-[#FF8C00] font-bold">မနက် 8:00 နာရီ မှ ည 10:00 နာရီ ထိ</span></p>
+            <p class="text-xs text-white font-medium mt-1">📥 Order တင်ချိန်: <span class="text-[#FF8C00] font-bold">မနက် 8:00 နာရီ  မှ ည 10:00 နာရီ ထိ</span></p>
+            <p class="text-xs text-neutral-400 mt-1">💰 ပိုက်ဆံဖြည့်ချိန် (Ngwe Phyae): <span class="text-[#FF8C00] font-bold">မနက် 8:00 နာရီ  မှ ည 10:00 နာရီ ထိ</span></p>
         </div>
 
         <!-- FAVORITE GAMES VIEW PANEL -->
@@ -844,19 +868,19 @@
                     <div class="space-y-1.5 text-xs text-neutral-300">
                         <div class="flex justify-between">
                             <span>• သူငယ်ချင်းသစ် Register လုပ်လျှင်:</span>
-                            <span class="text-green-500 font-bold">+၁၀၀ Ks</span>
+                            <span class="text-green-500 font-bold">+၁၀၀ Ks (သူငယ်ချင်းအသစ်သာ ရရှိပါမည်)</span>
                         </div>
                         <div class="flex justify-between">
                             <span>• သူငယ်ချင်း Ngwe Phyae ၃၀,၀၀၀ Ks ပြည့်လျှင်:</span>
-                            <span class="text-[#FF8C00] font-bold">+၅၀၀ Ks</span>
+                            <span class="text-[#FF8C00] font-bold">+၅၀၀ Ks (လူဟောင်းမှ Claim ရန်)</span>
                         </div>
                         <div class="flex justify-between">
                             <span>• သူငယ်ချင်း Ngwe Phyae ၅၀,၀၀၀ Ks ပြည့်လျှင်:</span>
-                            <span class="text-[#FF8C00] font-bold">+၁,၀၀၀ Ks</span>
+                            <span class="text-[#FF8C00] font-bold">+၁,၀၀၀ Ks (လူဟောင်းမှ Claim ရန်)</span>
                         </div>
                         <div class="flex justify-between">
                             <span>• သူငယ်ချင်း Ngwe Phyae ၁၀၀,၀၀၀ Ks ပြည့်လျှင်:</span>
-                            <span class="text-green-500 font-bold">+၂,၀၀၀ Ks</span>
+                            <span class="text-green-500 font-bold">+၂,၀၀၀ Ks (လူဟောင်းမှ Claim ရန်)</span>
                         </div>
                     </div>
                 </div>
@@ -891,7 +915,7 @@
 
                 <div class="text-left mb-4">
                     <label class="text-xs text-neutral-400 block mb-1">စကားဝှက်အသစ် (New Password)</label>
-                    <input type="password" id="chg-new-pass" class="input-field" style="margin: 0;" placeholder="စကားဝှက်အသစ် ဖြည့်ပါ">
+                    <input type="password" id="chg-new-pass" class="input-field" style="margin: 0;" placeholder="စကားဝှက်အသစ် (အနည်းဆုံး ၈ လုံး) ဖြည့်ပါ">
                 </div>
 
                 <div class="text-left mb-6">
@@ -960,12 +984,12 @@
         <div style="padding: 20px;">
             <div style="background: #111; padding: 18px; border-radius: 12px; border: 1px solid #222; margin-bottom: 15px; text-align: center; border-left: 4px solid #FF8C00;">
                 <h3 style="color:#FF8C00; margin-bottom:10px; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 8px;">🛡️ Customer Security</h3>
-                <p style="font-size: 0.85rem; color: #ccc; line-height: 1.6;">ကျွန်ုပ်တို့ထံမှ မှာယူသော ဝန်ဆောင်မှုတိုင်းကို Ngwe Hlwe မှန်ကန်ပါက ရာနှုန်းပြည့် အာမခံချက်ရှိစွာ တာဝန်ယူ ဆောင်ရွက်ပေးနေပါသည်ဗျာ။ အကောင့်ဘေးကင်းရေးကို ၁၀၀% အာမခံပါသည်။</p>
+                <p style="font-size: 0.85rem; color: #ccc; line-height: 1.6;">ကျွန်ုပ်တို့ထံမှ မှာယူသော ဝန်ဆောင်မှုတိုင်းကို Ngwe Hlwe မှန်ကန်ပါက ရာနှုန်းပြည့် အာမခံချက်ရှိစွာ တာဝန်ယူ ဆောင်ရွက်ပေးနေပါသည်ဗျာ। အကောင့်ဘေးကင်းရေးကို ၁၀၀% အာမခံပါသည်။</p>
             </div>
             
             <div style="background: #111; padding: 18px; border-radius: 12px; border: 1px solid #222; margin-bottom: 15px; text-align: center; border-left: 4px solid #FF8C00;">
                 <h3 style="color:#FF8C00; margin-bottom:10px; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 8px;">🕒 လုပ်ငန်းချိန် (Working Hours)</h3>
-                <p style="font-size: 0.85rem; color: #ccc; line-height: 1.6;">မနက် ၈:၀၀ နာရီ မှ ည ၁၀:၀၀ နာရီအထိ လူကြီးမင်းတို့၏ အော်ဒါများနှင့် ငွေဖြည့်မှုများကို အမြန်ဆုံး ဆောင်ရွက်ပေးလျက် ရှိပါသည်။</p>
+                <p style="font-size: 0.85rem; color: #ccc; line-height: 1.6;">မနက် ၈:၀၀ နာရီ  မှ ည ၁၀:၀၀ နာရီအထိ လူကြီးမင်းတို့၏ အော်ဒါများနှင့် ငွေဖြည့်မှုများကို အမြန်ဆုံး ဆောင်ရွက်ပေးလျက် ရှိပါသည်။</p>
             </div>
 
             <div style="background: #111; padding: 18px; border-radius: 12px; border: 1px solid #222; margin-bottom: 15px; border-left: 4px solid #FF8C00;">
@@ -988,7 +1012,7 @@
         </div>
         <div style="padding: 20px; text-align: center;">
             <div class="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-left text-xs text-red-400">
-                ⚠️ <b>သတိပေးချက်:</b> ပိုက်ဆံဖြည့်သွင်းချိန်သည် <span class="font-bold text-white">မနက် 8:00 နာရီ မှ ည 10:00 နာရီ</span> အထိသာ ဖြစ်ပါသည်။ ကျန်ရှိသောအချိန်များတွင် လွှဲပြောင်းထားသော စလစ်များကို နောက်တစ်နေ့လုပ်ငန်းချိန်မှသာ စစ်ဆေးဖြည့်သွင်းပေးပါမည်ခင်ဗျာ။
+                ⚠️ <b>သတိပေးချက်:</b> ပိုက်ဆံဖြည့်သွင်းချိန်သည် <span class="font-bold text-white">မနက် 8:00 နာရီ  မှ ည 10:00 နာရီ</span> အထိသာ ဖြစ်ပါသည်။ ကျန်ရှိသောအချိန်များတွင် လွှဲပြောင်းထားသော စလစ်များကို နောက်တစ်နေ့လုပ်ငန်းချိန်မှသာ စစ်ဆေးဖြည့်သွင်းပေးပါမည်ခင်ဗျာ။
             </div>
 
             <div style="background: #111; padding: 25px; border-radius: 20px; border: 1px solid #333;">
@@ -1047,6 +1071,7 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
+    const auth = firebase.auth();
     
     let currentUser = null;
     let selectedImageBase64 = null;
@@ -1054,15 +1079,149 @@
     let otherServicesCache = {}; 
     let dynamicIconSize = 80;    
     
-    // Dynamic Bot Settings linked with Admin Hub
-    let tgBotToken = "8526730170:AAHX7Y0p0TMb_XgsmgG594XTDVWv4dtC5_E"; 
-    let tgChatId = "8189963333"; 
+    // =========================================================================
+    // SECURE CLOUDFLARE WORKER CONFIGURATION
+    // =========================================================================
+    // (မှတ်ချက် - မိတ်ဆွေ၏ Cloudflare Worker URL ကို အောက်တွင် ထည့်သွင်းပေးပါရန်)
+    // Firestore ရှိ "appSettings/telegramConfig/workerUrl" တွင် သတ်မှတ်ထားပါကလည်း Dynamic ဖတ်ယူသွားမည် ဖြစ်ပါသည်။
+    let CLOUDFLARE_WORKER_URL = "https://your-worker-subdomain.workers.dev"; 
+
+    /*
+      =========================================================================
+      [CLOUDFLARE WORKER CODE - COPY & PASTE IN YOUR CLOUDFLARE DASHBOARD]
+      =========================================================================
+      
+      export default {
+        async fetch(request, env, ctx) {
+          const corsHeaders = {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+          };
+
+          if (request.method === "OPTIONS") {
+            return new Response(null, { headers: corsHeaders });
+          }
+
+          if (request.method !== "POST") {
+            return new Response("Method Not Allowed", { status: 405, headers: corsHeaders });
+          }
+
+          const url = new URL(request.url);
+          const botToken = env.TELEGRAM_BOT_TOKEN; // Add in Cloudflare Settings -> Variables -> Secrets
+          const chatId = env.TELEGRAM_CHAT_ID;     // Add in Cloudflare Settings -> Variables -> Secrets
+
+          if (!botToken || !chatId) {
+            return new Response(JSON.stringify({ error: "Cloudflare environments are not configured!" }), {
+              status: 500,
+              headers: { ...corsHeaders, "Content-Type": "application/json" }
+            });
+          }
+
+          try {
+            const body = await request.json();
+            let telegramUrl = "";
+            let payload = {};
+
+            if (url.pathname === "/sendMessage") {
+              telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+              payload = {
+                chat_id: chatId,
+                text: body.text,
+                parse_mode: "HTML"
+              };
+            } else if (url.pathname === "/sendPhoto") {
+              telegramUrl = `https://api.telegram.org/bot${botToken}/sendPhoto`;
+              payload = {
+                chat_id: chatId,
+                photo: body.photo,
+                caption: body.caption,
+                parse_mode: "HTML",
+                reply_markup: body.reply_markup
+              };
+            } else {
+              return new Response("Endpoint Not Found", { status: 404, headers: corsHeaders });
+            }
+
+            const res = await fetch(telegramUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            });
+
+            const resData = await res.json();
+            return new Response(JSON.stringify(resData), {
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+              status: res.status
+            });
+
+          } catch (e) {
+            return new Response(JSON.stringify({ error: e.message }), {
+              status: 500,
+              headers: { ...corsHeaders, "Content-Type": "application/json" }
+            });
+          }
+        }
+      };
+    */
+    // =========================================================================
 
     // Shopping Cart State
     let cart = JSON.parse(localStorage.getItem("sr_game_shop_cart") || "[]");
 
     // Favorite Games State
     let favorites = JSON.parse(localStorage.getItem("sr_favorite_games") || "[]");
+
+    // --- SHA-256 Hashing Implementation for Secure Passwords ---
+    async function hashPassword(string) {
+        const utf8 = new TextEncoder().encode(string);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex;
+    }
+
+    // --- Brute Force Account Lock System ---
+    function isAccountLocked(phone) {
+        const lockData = localStorage.getItem(`lock_sr_${phone}`);
+        if (!lockData) return false;
+        
+        const { lockUntil } = JSON.parse(lockData);
+        if (Date.now() < lockUntil) {
+            return true;
+        } else {
+            localStorage.removeItem(`lock_sr_${phone}`);
+            return false;
+        }
+    }
+
+    function recordLoginFailure(phone) {
+        const key = `fail_sr_${phone}`;
+        let attempts = parseInt(localStorage.getItem(key) || "0");
+        attempts++;
+        localStorage.setItem(key, attempts);
+
+        if (attempts >= 5) {
+            const lockUntil = Date.now() + (5 * 60 * 1000); // ၅ မိနစ် Lock ချမည်
+            localStorage.setItem(`lock_sr_${phone}`, JSON.stringify({ lockUntil }));
+            localStorage.removeItem(key); 
+            return true;
+        }
+        return false;
+    }
+
+    function clearLoginFailures(phone) {
+        localStorage.removeItem(`fail_sr_${phone}`);
+        localStorage.removeItem(`lock_sr_${phone}`);
+    }
+
+    function getRemainingLockTime(phone) {
+        const lockData = localStorage.getItem(`lock_sr_${phone}`);
+        if (!lockData) return 0;
+        const { lockUntil } = JSON.parse(lockData);
+        const remaining = Math.ceil((lockUntil - Date.now()) / 1000);
+        return remaining > 0 ? remaining : 0;
+    }
 
     function toggleSidebar(open) {
         const sidebar = document.getElementById("side-menu");
@@ -1098,6 +1257,41 @@
             previewBox.style.display = 'block';
         } else {
             previewBox.style.display = 'none';
+        }
+    }
+
+    function showPage(id) {
+        document.querySelectorAll('.app-container > div').forEach(div => {
+            if(div.id !== 'nav-bar' && div.id !== 'side-menu' && div.id !== 'sidebar-overlay') div.classList.add('hidden');
+        });
+        
+        const targetPage = document.getElementById(id);
+        if (targetPage) {
+            targetPage.classList.remove('hidden');
+            targetPage.style.animation = 'none';
+            targetPage.offsetHeight; 
+            targetPage.style.animation = null;
+        }
+
+        const nav = document.getElementById('nav-bar');
+        if (id === 'page-login' || id === 'page-register' || id === 'page-forgot' || id === 'page-referral-prompt') {
+            nav.classList.add('hidden');
+        } else { nav.classList.remove('hidden'); }
+
+        document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+        const activeTab = document.getElementById('tab-' + id);
+        if (activeTab) activeTab.classList.add('active');
+
+        if (id === 'page-msg') {
+            markAllMessagesAsRead();
+        }
+
+        if (id === 'page-cart') {
+            renderCart();
+        }
+
+        if (id === 'page-profile') {
+            loadReferralStatusAndMilestones();
         }
     }
 
@@ -1148,11 +1342,12 @@
             const doc = await db.collection("appSettings").doc("telegramConfig").get();
             if (doc.exists) {
                 const data = doc.data();
-                if (data.botToken) tgBotToken = data.botToken;
-                if (data.chatId) tgChatId = data.chatId;
+                if (data.workerUrl) {
+                    CLOUDFLARE_WORKER_URL = data.workerUrl;
+                }
             }
         } catch (e) {
-            console.warn("Dynamic telegram configurations fallback triggered:", e);
+            console.warn("Dynamic cloudflare configurations fallback triggered:", e);
         }
     }
 
@@ -1181,9 +1376,105 @@
         }
     }
     
+    window.globalDiscountPercent = 0;
+    window.adminGlobalDiscountPercent = 0;
+    window.newUserDiscountOn = false;
+    window.newUserDiscountPercent = 0;
+    window.discountReason = "";
+    window.isNewUser = true;
+
+    function checkNewUserStatus() {
+        if (!db || !currentUser) return;
+        db.collection("orders")
+          .where("userId", "==", currentUser.phone)
+          .get()
+          .then(snap => {
+              let hasCompletedOrder = false;
+              snap.forEach(doc => {
+                  if (doc.data().status === 'completed') {
+                      hasCompletedOrder = true;
+                  }
+              });
+              window.isNewUser = !hasCompletedOrder;
+              recalculateEffectiveDiscounts();
+          }).catch(err => {
+              console.warn("Error checking new user status:", err);
+          });
+    }
+
+    function listenToDiscountConfig() {
+        if (!db) return;
+        db.collection("appSettings").doc("discountConfig").onSnapshot(doc => {
+            if (doc.exists) {
+                const data = doc.data();
+                window.adminGlobalDiscountPercent = parseFloat(data.discountPercent || 0);
+                window.newUserDiscountOn = data.newUserDiscount === 'on';
+                window.newUserDiscountPercent = parseFloat(data.newUserDiscountPercent || 0);
+                window.discountReason = data.discountReason || "";
+            } else {
+                window.adminGlobalDiscountPercent = 0;
+                window.newUserDiscountOn = false;
+                window.newUserDiscountPercent = 0;
+                window.discountReason = "";
+            }
+            recalculateEffectiveDiscounts();
+        }, err => console.warn(err));
+    }
+
+    function recalculateEffectiveDiscounts() {
+        let finalGlobalDiscount = window.adminGlobalDiscountPercent || 0;
+        let isUsingNewUserPromo = false;
+
+        // Apply new user discount if active and higher than general global discount
+        if (window.newUserDiscountOn && window.isNewUser && window.newUserDiscountPercent > finalGlobalDiscount) {
+            finalGlobalDiscount = window.newUserDiscountPercent;
+            isUsingNewUserPromo = true;
+        }
+
+        window.globalDiscountPercent = finalGlobalDiscount;
+
+        // Dynamic Home Discount Promotion Banners
+        const banner = document.getElementById("home-discount-banner");
+        const bannerText = document.getElementById("home-discount-banner-text");
+        const promoBanner = document.getElementById("home-promo-banner");
+        const promoBannerText = document.getElementById("home-promo-banner-text");
+
+        // Global promo banner
+        if (window.adminGlobalDiscountPercent > 0) {
+            if (banner && bannerText) {
+                bannerText.innerHTML = `🔥 စပါယ်ရှယ် Discount အထူးပရိုမိုးရှင်းဖြင့် ဂိမ်းအားလုံးကို <b>${window.adminGlobalDiscountPercent}%</b> လျှော့စျေး ပေးထားပါတယ်ဗျာ။ ${window.discountReason ? `<br><span class="text-xs text-neutral-300">(${window.discountReason})</span>` : ''}`;
+                banner.classList.remove("hidden");
+            }
+        } else {
+            if (banner) banner.classList.add("hidden");
+        }
+
+        // New user promo banner
+        if (window.newUserDiscountOn && window.isNewUser) {
+            if (promoBanner && promoBannerText) {
+                promoBannerText.innerHTML = `🎁 ကြိုဆိုပါတယ်ဗျာ။ အကောင့်သစ်ပရိုမိုးရှင်းအနေနဲ့ ပထမဆုံးအော်ဒါအတွက် <b>${window.newUserDiscountPercent}% Discount</b> လက်ဆောင် ရရှိပါမည်။`;
+                promoBanner.classList.remove("hidden");
+            }
+        } else {
+            if (promoBanner) promoBanner.classList.add("hidden");
+        }
+
+        renderDynamicGames(fullGamesSnapshot);
+    }
+
     window.onload = function() {
         const savedPhone = localStorage.getItem("sr_user_phone");
         
+        auth.signInAnonymously().then(() => {
+            console.log("Firebase Auth Authenticated successfully.");
+            continueLoadingApp(savedPhone);
+        }).catch(err => {
+            console.warn("Firebase Auth Error:", err);
+            continueLoadingApp(savedPhone);
+        });
+    };
+
+    function continueLoadingApp(savedPhone) {
         listenToGameIconSizeConfig();
         updateCartBadge();
         updateFavoritePanel();
@@ -1204,6 +1495,7 @@
                             }
 
                             updateUI();
+                            checkNewUserStatus();
                             listenToGamesList(); 
                             listenToUnreadMessages(); 
                             listenToDiscountConfig();
@@ -1225,7 +1517,7 @@
         } else {
             showPage('page-login');
         }
-    };
+    }
 
     function listenToGameIconSizeConfig() {
         db.collection("appSettings").doc("gameIconSize").onSnapshot(doc => {
@@ -1242,66 +1534,6 @@
             h.style.width = `${dynamicIconSize}px`;
             h.style.height = `${dynamicIconSize}px`;
         });
-    }
-
-    function listenToDiscountConfig() {
-        if (!db) return;
-        db.collection("appSettings").doc("discountConfig").onSnapshot(doc => {
-            const banner = document.getElementById("home-discount-banner");
-            const bannerText = document.getElementById("home-discount-banner-text");
-            if (doc.exists) {
-                const discountPercent = parseFloat(doc.data().discountPercent || 0);
-                if (discountPercent > 0) {
-                    window.globalDiscountPercent = discountPercent;
-                    if (banner && bannerText) {
-                        bannerText.innerText = `ဂိမ်းနှင့် Premium ဝန်ဆောင်မှုအားလုံးကို Discount ${discountPercent}% လျှော့ချထားပါတယ်ဗျာ။ 🔥`;
-                        banner.classList.remove("hidden");
-                    }
-                } else {
-                    window.globalDiscountPercent = 0;
-                    if (banner) banner.classList.add("hidden");
-                }
-            } else {
-                window.globalDiscountPercent = 0;
-                if (banner) banner.classList.add("hidden");
-            }
-            renderDynamicGames(fullGamesSnapshot);
-        }, err => console.warn(err));
-    }
-
-    function showPage(id) {
-        document.querySelectorAll('.app-container > div').forEach(div => {
-            if(div.id !== 'nav-bar' && div.id !== 'side-menu' && div.id !== 'sidebar-overlay') div.classList.add('hidden');
-        });
-        
-        const targetPage = document.getElementById(id);
-        if (targetPage) {
-            targetPage.classList.remove('hidden');
-            targetPage.style.animation = 'none';
-            targetPage.offsetHeight; 
-            targetPage.style.animation = null;
-        }
-
-        const nav = document.getElementById('nav-bar');
-        if (id === 'page-login' || id === 'page-register' || id === 'page-forgot' || id === 'page-referral-prompt') {
-            nav.classList.add('hidden');
-        } else { nav.classList.remove('hidden'); }
-
-        document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
-        const activeTab = document.getElementById('tab-' + id);
-        if (activeTab) activeTab.classList.add('active');
-
-        if (id === 'page-msg') {
-            markAllMessagesAsRead();
-        }
-
-        if (id === 'page-cart') {
-            renderCart();
-        }
-
-        if (id === 'page-profile') {
-            loadReferralStatusAndMilestones();
-        }
     }
 
     function listenToUnreadMessages() {
@@ -1357,59 +1589,88 @@
           });
     }
 
-    function handleLogin() {
+    async function handleLogin() {
         const phone = document.getElementById('log-phone').value.trim();
         const pass = document.getElementById('log-pass').value.trim();
         if(!phone || !pass) return callCustomAlert("⚠️ ကျေးဇူးပြု၍ ဖုန်းနံပါတ်နှင့် စကားဝှက် ဖြည့်ပေးပါ။");
         
+        if (isAccountLocked(phone)) {
+            const secs = getRemainingLockTime(phone);
+            return callCustomAlert(`❌ အကောင့်ဝင်ရန် ၅ ကြိမ်ထက်ပိုမှားယွင်းသဖြင့် ဤအကောင့်အား ယာယီ Lock ချထားပါသည်။\nကျေးဇူးပြု၍ ${secs} စက္ကန့် စောင့်ပြီးမှ ပြန်လည်ကြိုးစားပေးပါရန်။`);
+        }
+
+        const hashedPass = await hashPassword(pass);
+
         db.collection("users").doc(phone).get().then(doc => {
-            if(doc.exists && doc.data().pass === pass) {
+            if (doc.exists) {
                 const fetchedData = doc.data();
                 
-                if (fetchedData.status === 'banned') {
-                    return callCustomAlert("❌ သင့်အကောင့်သည် စည်းကမ်းဖောက်ဖျက်မှုကြောင့် ပိတ်ပင် (Ban) ခံထားရပါသည်ဗျာ।");
-                }
+                if (fetchedData.pass === hashedPass || fetchedData.pass === pass) {
+                    
+                    if (fetchedData.status === 'banned') {
+                        return callCustomAlert("❌ သင့်အကောင့်သည် စည်းကမ်းဖောက်ဖျက်မှုကြောင့် ပိတ်ပင် (Ban) ခံထားရပါသည်ဗျာ।");
+                    }
 
-                currentUser = fetchedData;
-                localStorage.setItem("sr_user_phone", phone);
-                sessionStorage.setItem("sr_session_logged", "true");
-                updateUI();
-                listenToGamesList();
-                listenToUnreadMessages();
-                listenToDiscountConfig();
-                
-                logSessionEvent(currentUser.name, currentUser.id || 'N/A', currentUser.phone, "login");
+                    if (fetchedData.pass === pass) {
+                        db.collection("users").doc(phone).update({ pass: hashedPass });
+                        fetchedData.pass = hashedPass;
+                    }
 
-                if (currentUser.referredBy === undefined || currentUser.referredBy === "") {
-                    showPage('page-referral-prompt');
+                    clearLoginFailures(phone); 
+                    currentUser = fetchedData;
+                    localStorage.setItem("sr_user_phone", phone);
+                    sessionStorage.setItem("sr_session_logged", "true");
+                    updateUI();
+                    checkNewUserStatus();
+                    listenToGamesList();
+                    listenToUnreadMessages();
+                    listenToDiscountConfig();
+                    
+                    logSessionEvent(currentUser.name, currentUser.id || 'N/A', currentUser.phone, "login");
+
+                    if (currentUser.referredBy === undefined || currentUser.referredBy === "") {
+                        showPage('page-referral-prompt');
+                    } else {
+                        showPage('page-home');
+                    }
                 } else {
-                    showPage('page-home');
+                    const isLockedNow = recordLoginFailure(phone);
+                    if (isLockedNow) {
+                        callCustomAlert("❌ ၅ ကြိမ် ဆက်တိုက်လွဲမှားသဖြင့် အကောင့်အား ၅ မိနစ် Lock ချလိုက်ပါပြီဗျာ।");
+                    } else {
+                        callCustomAlert("❌ ဖုန်းနံပါတ် သို့မဟုတ် စကားဝှက် မှားယွင်းနေပါသည်။");
+                    }
                 }
-            } else { callCustomAlert("❌ ဖုန်းနံပါတ် သို့မဟုတ် စကားဝှက် မှားယွင်းနေပါသည်။"); }
+            } else {
+                callCustomAlert("❌ ဤဖုန်းနံပါတ်ဖြင့် ဖွင့်ထားသောအကောင့် မရှိသေးပါဗျာ।");
+            }
         }).catch(err => {
-            console.error("Login read failed:", err);
+            console.error(err);
             callCustomAlert("❌ ချိတ်ဆက်မှု အဆင်မပြေပါ။");
         });
     }
 
-    function handleRegister() {
+    async function handleRegister() {
         const name = document.getElementById('reg-name').value.trim();
         const phone = document.getElementById('reg-phone').value.trim();
         const pass = document.getElementById('reg-pass').value.trim();
         const conf = document.getElementById('reg-confirm').value.trim();
         
         if(!name || !phone || !pass) return callCustomAlert("⚠️ အချက်အလက်များကို အပြည့်အစုံ ဖြည့်စွက်ပေးပါ။");
+        if(pass.length < 8) return callCustomAlert("❌ စကားဝှက်သည် အနည်းဆုံး ဂဏန်း/စာလုံး ၈ လုံး ရှိရပါမည်ဗျာ।");
         if(pass !== conf) return callCustomAlert("❌ စကားဝှက်အတည်ပြုချက် မကိုက်ညီပါဗျာ।");
         
-        db.collection("users").doc(phone).get().then(doc => {
+        db.collection("users").doc(phone).get().then(async (doc) => {
             if (doc.exists) {
                 callCustomAlert("❌ ဤဖုန်းနံပါတ်ဖြင့် အကောင့်ဖွင့်ထားပြီးသား ဖြစ်နေပါသည်။");
             } else {
                 const generatedId = Math.floor(100000 + Math.random() * 900000);
+                const secureHashedPassword = await hashPassword(pass); 
+
                 const userData = { 
                     name: name, 
                     phone: phone, 
-                    pass: pass, 
+                    pass: secureHashedPassword, 
                     balance: 0, 
                     id: generatedId,
                     referredBy: "",
@@ -1433,20 +1694,28 @@
             return await callCustomAlert("⚠️ ကျေးဇူးပြု၍ လိုအပ်သောအချက်အလက်များ အားလုံး ဖြည့်သွင်းပေးပါ။");
         }
 
+        if (newPass.length < 8) {
+            return await callCustomAlert("❌ စကားဝှက်အသစ်သည် အနည်းဆုံး စာလုံး/ဂဏန်း ၈ လုံး ရှိရပါမည်ဗျာ।");
+        }
+
         if (newPass !== confPass) {
             return await callCustomAlert("❌ စကားဝှက်အသစ်နှစ်ခု ကိုက်ညီမှုမရှိပါဗျာ။");
         }
 
-        if (oldPass !== currentUser.pass) {
+        const hashedOldPass = await hashPassword(oldPass);
+
+        if (hashedOldPass !== currentUser.pass && oldPass !== currentUser.pass) {
             return await callCustomAlert("❌ လက်ရှိအသုံးပြုနေသော စကားဝှက်ဟောင်း မှားယွင်းနေပါသည်။");
         }
 
         try {
+            const hashedNewPass = await hashPassword(newPass);
+
             await db.collection("users").doc(currentUser.phone).update({
-                pass: newPass
+                pass: hashedNewPass
             });
 
-            currentUser.pass = newPass;
+            currentUser.pass = hashedNewPass;
             document.getElementById("chg-old-pass").value = "";
             document.getElementById("chg-new-pass").value = "";
             document.getElementById("chg-conf-pass").value = "";
@@ -1515,8 +1784,7 @@
             }
 
             const rewardAmountSetting = 100; 
-            const finalReward = rewardAmountSetting;
-            const newBalance = (freshUser.balance || 0) + 100;
+            const newBalance = (freshUser.balance || 0) + rewardAmountSetting;
 
             await db.collection("users").doc(currentUser.phone).update({
                 referredBy: String(enteredCode),
@@ -1532,7 +1800,7 @@
                 const ipData = await ipRes.json();
                 clientIp = ipData.ip || "127.0.0.1";
             } catch(ipErr) {
-                console.warn("IP fetch bypassed: ", ipErr);
+                console.warn(ipErr);
             }
 
             await db.collection("referrals").add({
@@ -1550,23 +1818,14 @@
 
                 rewardAmount: rewardAmountSetting,
                 doubleMultiplier: 1,
-                rewardPaid: finalReward, 
+                rewardPaid: rewardAmountSetting, 
                 status: "approved", 
                 timestamp: new Date().toISOString()
             });
 
-            const inviterRef = db.collection("users").doc(inviterData.phone);
-            const inviterSnap = await inviterRef.get();
-            if (inviterSnap.exists) {
-                const currentInviterBal = parseFloat(inviterSnap.data().balance || 0);
-                await inviterRef.update({
-                    balance: currentInviterBal + finalReward
-                });
-            }
-
             await db.collection("messages").add({
                 to: inviterData.phone,
-                text: `🎉 Congratulation! သင်ဖိတ်ခေါ်ထားသော ${currentUser.name} (ဖုန်း: ${currentUser.phone}) မှ အကောင့်အသစ်ဖွင့်ပြီး Referral Code အသုံးပြုလိုက်ပါပြီ। သင့်ထံသို့ ဖိတ်ခေါ်ခွင့်ဆုကြေး ${finalReward} Ks ဝင်ရောက်လာပါပြီ।`,
+                text: `🎉 Congratulation! သင်ဖိတ်ခေါ်ထားသော ${currentUser.name} (ဖုန်း: ${currentUser.phone}) မှ အကောင့်အသစ်ဖွင့်ပြီး Referral Code အသုံးပြုလိုက်ပါပြီ। သူငယ်ချင်းဖြစ်သူ Ngwe Phyae တန်ဖိုးများပြည့်မြောက်ပါက ဆုကြေးများ Claim နိုင်ပါပြီ။`,
                 time: firebase.firestore.FieldValue.serverTimestamp()
             });
 
@@ -1580,12 +1839,13 @@
                                    `• အမည်: <b>${currentUser.name}</b>\n` +
                                    `• User ID: <code>#${currentUser.id}</code>\n` +
                                    `• ဖုန်းနံပါတ်: <code>${currentUser.phone}</code>\n` +
-                                   `• ရရှိသည့် Bonus: <b>100 Ks</b>`;
+                                   `• ရရှိသည့် Bonus (အသစ်): <b>100 Ks</b>`;
                                    
             sendToTelegram(telegramRefMsg);
 
             updateUI();
-            await callCustomAlert("🎉 Referral Code အောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ။ သင်၏ Wallet ထဲသို့ ၁၀၀ ကျပ် လက်ဆောင် ဖြည့်သွင်းပေးလိုက်ပါပြီ။");
+            checkNewUserStatus();
+            await callCustomAlert("🎉 Referral Code အောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ။ သင်၏ Wallet ထဲသို့ ၁၀၀ ကျပ် လက်ဆောင် ဖြည့်သွင်းပေးလိုက်ပါပြီ။ သူငယ်ချင်းဖြစ်သူမှလည်း Milestone ပြည့်မြောက်ပါက Claim ဆုကြေးရရှိပါမည်။");
             
             if (isFromProfile) {
                 const profInput = document.getElementById("profile-ref-code");
@@ -1625,27 +1885,30 @@
         });
     }
 
-    function handleResetPassword() {
+    async function handleResetPassword() {
         const phone = document.getElementById('for-phone').value.trim();
         const regName = document.getElementById('for-name').value.trim().toLowerCase();
         const userId = document.getElementById('for-userid').value.trim();
         const newPass = document.getElementById('for-newpass').value.trim();
 
         if(!phone || !regName || !userId || !newPass) return callCustomAlert("⚠️ ကျေးဇူးပြု၍ လုံခြုံရေး အချက်အလက်များ အားလုံးကို ပြည့်စုံစွာ ဖြည့်စွက်ပါ။");
+        if(newPass.length < 8) return callCustomAlert("❌ စကားဝှက်အသစ်သည် အနည်းဆုံး ၈ လုံး ရှိရပါမည်ဗျာ။");
 
-        db.collection("users").doc(phone).get().then((doc) => {
+        db.collection("users").doc(phone).get().then(async (doc) => {
             if(doc.exists && String(doc.data().id) === String(userId) && doc.data().name.trim().toLowerCase() === regName) {
                 if (doc.data().status === 'banned') {
                     return callCustomAlert("❌ ဤအကောင့်သည် စည်းကမ်းဖောက်ဖျက်မှုကြောင့် ပိတ်ပင်ခံထားရပါသဖြင့် စကားဝှက် ပြောင်းလဲ၍မရပါဗျာ।");
                 }
                 
-                db.collection("users").doc(phone).update({ pass: newPass }).then(() => {
+                const secureHashedPassword = await hashPassword(newPass);
+
+                db.collection("users").doc(phone).update({ pass: secureHashedPassword }).then(() => {
                     const notifyMsg = `🔑 <b>SECURE PASSWORD RESET SUCCESS</b>\n` +
                                       `━━━━━━━━━━━━━━━━━━\n` +
                                       `👤 User: <b>${doc.data().name}</b>\n` +
                                       `📞 Phone: <code>${phone}</code>\n` +
                                       `🆔 ID: <code>#${userId}</code>\n` +
-                                      `🟢 Status: Password Changed Successfully`;
+                                      `CN Status: Password Reset Successfully & SHA-256 Hashed`;
                     sendToTelegram(notifyMsg);
                     callCustomAlert("✅ စကားဝှက်အသစ် ပြောင်းလဲခြင်း အောင်မြင်ပါပြီ။");
                     showPage('page-login');
@@ -1656,7 +1919,7 @@
                                   `📞 Entered Phone: <code>${phone}</code>\n` +
                                   `👤 Entered Name: <b>${regName}</b>\n` +
                                   `🆔 Entered ID: <code>#${userId}</code>\n` +
-                                  `🔴 Status: Access Denied / Invalid Match`;
+                                  `CN Status: Access Denied / Invalid Match`;
                 sendToTelegram(notifyMsg);
                 callCustomAlert("❌ ဖုန်းနံပါတ်၊ မှတ်ပုံတင်ထားသော အမည် သို့မဟုတ် User ID လွဲမှားနေပါသည်။"); 
             }
@@ -1771,10 +2034,10 @@
         const index = favorites.indexOf(gameId);
         if (index > -1) {
             favorites.splice(index, 1);
-            callCustomAlert(`💔 ${gameId.toUpperCase()} ကို စိတ်ကြိုက်ဂိမ်းစာရင်းမှ ဖြုတ်လိုက်ပါပြီ။`);
+            callCustomAlert(`💔 ${gameId.toUpperCase()} ကို စိတ်ကြိုက်ဂိမ်းစာရင်းမှ ဖြုတ်လိုက်ပါပြီ।`);
         } else {
             favorites.push(gameId);
-            callCustomAlert(`❤️ ${gameId.toUpperCase()} ကို စိတ်ကြိုက်ဂိမ်းစာရင်းထဲ ထည့်သွင်းလိုက်ပါပြီ။`);
+            callCustomAlert(`❤️ ${gameId.toUpperCase()} ကို စိတ်ကြိုက်ဂိမ်းစာရင်းထဲ ထည့်သွင်းလိုက်ပါပြီ।`);
         }
         localStorage.setItem("sr_favorite_games", JSON.stringify(favorites));
         
@@ -1862,8 +2125,16 @@
             const finalIcon = cachedGameIcons[gameId] || defaultIcon;
             const isFav = favorites.includes(gameId);
 
+            // Adding a dynamic discount label right on top of individual game card entries
+            const saleTagHtml = (window.globalDiscountPercent && window.globalDiscountPercent > 0) ? `
+                <span class="absolute top-2 left-2 z-10 bg-emerald-500 text-black text-[9px] font-black px-2 py-0.5 rounded-full uppercase border border-emerald-400/20 shadow-md animate-pulse">
+                    -${window.globalDiscountPercent}% OFF
+                </span>
+            ` : '';
+
             html += `
                 <div class="menu-item relative" onclick="openStore('${gameId}')">
+                    ${saleTagHtml}
                     <button class="absolute top-2 right-2 text-base z-10 p-1 bg-black/60 rounded-full active:scale-95 transition" onclick="toggleFavorite('${gameId}', event)">
                         ${isFav ? "❤️" : "🤍"}
                     </button>
@@ -1929,15 +2200,57 @@
                 let hasData = false;
 
                 Object.keys(data).forEach((fieldName, idx) => {
-                    if (fieldName === 'inputFields' || fieldName === 'gameTitle') return;
-                    const itemArray = data[fieldName];
-                    if (Array.isArray(itemArray) && itemArray.length > 0) {
-                        renderCat(listView, fieldName.toUpperCase(), itemArray, game, idx);
+                    if (fieldName === 'inputFields' || fieldName === 'gameTitle' || fieldName === 'status') return;
+                    const rawValue = data[fieldName];
+                    
+                    let itemsToRender = [];
+                    if (Array.isArray(rawValue)) {
+                        itemsToRender = rawValue;
+                    } 
+                    else if (rawValue && typeof rawValue === 'object') {
+                        itemsToRender = Object.keys(rawValue).map(key => {
+                            const val = rawValue[key];
+                            if (val && typeof val === 'object') {
+                                return {
+                                    amount: val.amount || val.Amount || val.name || key,
+                                    price: val.price || val.Price || val.cost || 0,
+                                    discountPercent: val.discountPercent || val.discount || 0,
+                                    iconUrl: val.iconUrl || "",
+                                    iconSize: val.iconSize || 32
+                                };
+                            } else {
+                                return {
+                                    amount: key,
+                                    price: Number(val) || 0
+                                };
+                            }
+                        });
+                    }
+
+                    if (itemsToRender.length > 0) {
+                        renderCat(listView, fieldName.toUpperCase(), itemsToRender, game, idx);
                         hasData = true;
                     }
                 });
-                if(!hasData) listView.innerHTML = '<p style="text-align:center; padding:20px; color:#555;">ဈေးနှုန်းစာရင်း မရှိသေးပါ။</p>';
-            } else { listView.innerHTML = '<p style="text-align:center; padding:20px; color:#ff4444;">ဈေးနှုန်းရယူ၍ မရနိုင်ပါဗျာ။</p>'; }
+
+                if(!hasData) {
+                    listView.innerHTML = `
+                        <div class="empty-placeholder mx-4">
+                            <span class="empty-placeholder-icon">💎</span>
+                            <h3 style="color: #FF8C00; margin-bottom: 10px;">ပစ္စည်းများ မရှိသေးပါ</h3>
+                            <p style="color: #888; font-size: 0.85rem; line-height: 1.5;">ယခုလောလောဆယ်တွင် ဝယ်ယူရန် ပစ္စည်း/ပက်ကေ့ချ်များ မရှိသေးပါဘူးခင်ဗျာ။ <br>မကြာမီ ထပ်မံဖြည့်သွင်းပေးပါမည်။</p>
+                        </div>
+                    `;
+                }
+            } else { 
+                listView.innerHTML = `
+                    <div class="empty-placeholder mx-4">
+                        <span class="empty-placeholder-icon">❌</span>
+                        <h3 style="color: #ff4444; margin-bottom: 10px;">ဈေးနှုန်းရယူ၍မရပါ</h3>
+                        <p style="color: #888; font-size: 0.85rem; line-height: 1.5;">ယခုဂိမ်းအတွက် ဝယ်ယူရန်ပစ္စည်းများ သတ်မှတ်ထားခြင်း မရှိသေးပါဗျာ।</p>
+                    </div>
+                `;
+            }
         });
     }
 
@@ -1959,13 +2272,18 @@
             const finalItemIcon = item.iconUrl || defaultIconUrl;
             const finalIconSize = item.iconSize || 32;
 
-            // Integrating global discount calculations
+            // Priority: Item-Specific Discount > Global Discount (Admin set discount)
+            const itemDiscount = parseFloat(item.discountPercent || item.discount || 0);
+            const activeDiscount = itemDiscount > 0 ? itemDiscount : (window.globalDiscountPercent || 0);
+
             let priceLabelText = `<span class="text-[#FF8C00] font-bold">${itemPrice.toLocaleString()} Ks</span>`;
             let activeAddToCartPrice = itemPrice;
 
-            if (window.globalDiscountPercent && window.globalDiscountPercent > 0) {
-                const discountedCost = Math.round(itemPrice * (1 - window.globalDiscountPercent / 100));
-                priceLabelText = `<span class="line-through text-neutral-500 text-[10px] block">${itemPrice.toLocaleString()} Ks</span> <span class="text-emerald-400 font-extrabold text-xs block">${discountedCost.toLocaleString()} Ks (${window.globalDiscountPercent}% OFF)</span>`;
+            if (activeDiscount > 0) {
+                const discountedCost = Math.round(itemPrice * (1 - activeDiscount / 100));
+                priceLabelText = `
+                    <span class="line-through text-neutral-500 text-[10px] block">${itemPrice.toLocaleString()} Ks</span> 
+                    <span class="text-emerald-400 font-extrabold text-xs block">${discountedCost.toLocaleString()} Ks (${activeDiscount}% OFF)</span>`;
                 activeAddToCartPrice = discountedCost;
             }
 
@@ -2110,7 +2428,7 @@
 
             const liveBalance = parseFloat(userSnap.data().balance || 0);
             if (liveBalance < totalPay) {
-                return await callCustomAlert(`❌ လက်ကျန်ငွေ မလုံလောက်ပါ။\n\nကျသင့်ငွေ: ${totalPay.toLocaleString()} Ks\nသင့်လက်ကျန်ငွေ: ${liveBalance.toLocaleString()} Ks\n\nကျေးဇူးပြု၍ အရင် Ngwe Phyae ပေးပါဗျာ।`);
+                return await callCustomAlert(`❌ လက်ကျန်ငွေ မလုံလောက်ပါ။\n\nကျသင့်ငွေ: ${totalPay.toLocaleString()} Ks\nသင့်လက်ကျန်ငွေ: ${liveBalance.toLocaleString()} Ks\n\nကျေးဇူးပြု၍ အရင် Ngwe Phyaေ ပေးပါဗျာ।`);
             }
 
             const userConfirmed = await showCustomConfirm(
@@ -2161,7 +2479,7 @@
                                 `👤 ဝယ်သူ: ${currentUser.name}\n` +
                                 `📞 Phone Number: <code>${currentUser.phone}</code>\n` +
                                 `📈 အော်ဒါအရေအတွက်: ${cart.length} ခု\n` +
-                                `💰 စုစုပေါင်းရှင်းပြီးငွေ: <b>${totalPay.toLocaleString()} Ks</b>\n\n` +
+                                `💰 Сုစုပေါင်းရှင်းပြီးငွေ: <b>${totalPay.toLocaleString()} Ks</b>\n\n` +
                                 `📝 <b>အော်ဒါအသေးစိတ်များ:</b>\n` +
                                 `------------------------------------\n` +
                                 telegramDetails.join("\n\n");
@@ -2171,6 +2489,7 @@
                     cart = [];
                     localStorage.setItem("sr_game_shop_cart", JSON.stringify(cart));
                     updateCartBadge();
+                    checkNewUserStatus(); // Recalculate New User status after successful purchase
 
                     await callCustomAlert(`✅ ဝယ်ယူမှု အောင်မြင်ပါသည်။ အော်ဒါတင်ပြပြီးပါပြီ।`);
                     showPage('page-home');
@@ -2318,8 +2637,6 @@
             currentUser.claimedMilestones = claimedMap;
             currentUser.balance = newBalance;
 
-            // CRITICAL: Document added to referrals collection with approved status and doubleMultiplier = 1 so that
-            // it instantly contributes to "Rewards Paid" summary metrics on the Admin Panel Hub!
             db.collection("referrals").add({
                 inviterId: currentUser.id || "Unknown",
                 inviterPhone: currentUser.phone || "N/A",
@@ -2389,30 +2706,35 @@
             }
 
             let html = "";
-            let localSizeConfig = localStorage.getItem("sr_icon_size") || "80";
-
             snap.forEach(doc => {
                 const data = doc.data();
                 const serviceId = doc.id;
-                const plans = data.plans || [];
                 otherServicesCache[serviceId] = data; 
 
-                if (plans.length > 0) {
-                    html += `
-                    <div class="service-card-premium" onclick="viewServicePlansDetail('${serviceId}')">
-                        <div class="service-icon-holder" style="width: ${localSizeConfig}px; height: ${localSizeConfig}px;">
-                            <img src="${data.iconUrl || 'https://placehold.co/150x150/111/fff?text=' + data.serviceName}" onerror="this.src='https://placehold.co/150/111/fff?text=${data.serviceName}'">
-                        </div>
-                        <span style="color:#ffffff; font-weight:bold; font-size:0.85rem; text-transform:uppercase;">${data.serviceName}</span>
-                    </div>`;
-                }
+                html += `
+                <div class="service-card-premium" onclick="viewServicePlansDetail('${serviceId}')">
+                    <div class="service-icon-holder" style="width: ${dynamicIconSize}px; height: ${dynamicIconSize}px;">
+                        <img src="${data.iconUrl || 'https://placehold.co/150x150/111/fff?text=' + data.serviceName}" onerror="this.src='https://placehold.co/150/111/fff?text=${data.serviceName}'">
+                    </div>
+                    <span style="color:#ffffff; font-weight:bold; font-size:0.85rem; text-transform:uppercase;">${data.serviceName}</span>
+                </div>`;
             });
 
-            grid.innerHTML = html;
-            applyDynamicIconSizesCSS();
+            if (html.trim() === "") {
+                grid.innerHTML = `
+                    <div class="empty-placeholder" style="grid-column: span 2;">
+                        <span class="empty-placeholder-icon">📦</span>
+                        <h3 style="color: #FF8C00; margin-bottom: 10px;">အခြားဝန်ဆောင်မှုများ</h3>
+                        <p style="color: #888; font-size: 0.85rem; line-height: 1.5;">ယခုလောလောဆယ်တွင် အခြားဝန်ဆောင်မှုများ မရှိသေးပါ။ <br>မကြာမီ ထပ်မံထည့်သွင်းပေးပါမည်။</p>
+                    </div>
+                `;
+            } else {
+                grid.innerHTML = html;
+                applyDynamicIconSizesCSS();
+            }
         } catch (e) {
-            console.error(e);
-            grid.innerHTML = "<p style='text-align:center; color:#ff4444; grid-column: span 2;'>Error loading services.</p>";
+            console.error("Error in loadOtherServicesGrid:", e);
+            grid.innerHTML = `<p style='text-align:center; color:#ff4444; grid-column: span 2;'>Error loading services: ${e.message || e}</p>`;
         }
     }
 
@@ -2453,29 +2775,67 @@
         <div class="store-grid-container" style="padding: 0;">
         `;
         
-        data.plans.forEach((p, itemIdx) => {
-            const planIconUrl = p.iconUrl || data.iconUrl || "";
-            const planIconSize = p.iconSize || 32;
-            const delay = itemIdx * 0.05;
+        let plansList = [];
+        if (Array.isArray(data.plans)) {
+            plansList = data.plans;
+        } else if (data.plans && typeof data.plans === 'object') {
+            plansList = Object.keys(data.plans).map(key => {
+                const val = data.plans[key];
+                if (val && typeof val === 'object') {
+                    return {
+                        packName: val.packName || val.name || key,
+                        price: val.price || val.Price || Number(val) || 0,
+                        discountPercent: val.discountPercent || val.discount || 0,
+                        iconUrl: val.iconUrl || "",
+                        iconSize: val.iconSize || 32
+                    };
+                } else {
+                    return {
+                        packName: key,
+                        price: Number(val) || 0
+                    };
+                }
+            });
+        }
 
-            // Integrating other premium services plan discounts
-            let planPriceLabel = `<span class="text-[#FF8C00] font-bold">${p.price.toLocaleString()} Ks</span>`;
-            let planPriceToCart = p.price;
-
-            if (window.globalDiscountPercent && window.globalDiscountPercent > 0) {
-                const discountedServiceCost = Math.round(p.price * (1 - window.globalDiscountPercent / 100));
-                planPriceLabel = `<span class="line-through text-neutral-500 text-[10px] block">${p.price.toLocaleString()} Ks</span> <span class="text-emerald-400 font-extrabold text-xs block">${discountedServiceCost.toLocaleString()} Ks (${window.globalDiscountPercent}% OFF)</span>`;
-                planPriceToCart = discountedServiceCost;
-            }
-
+        if (plansList.length === 0) {
             html += `
-                <div class="price-box-card" style="animation-delay: ${delay}s;">
-                    <img src="${planIconUrl}" style="width: ${planIconSize}px; height: ${planIconSize}px;" class="currency-icon object-contain" alt="icon" onerror="this.src='${data.iconUrl || ''}'">
-                    <div class="price-box-amount">${p.packName}</div>
-                    <div class="price-box-cost">${planPriceLabel}</div>
-                    <button class="buy-btn" onclick="openOtherServiceOrderModal('${data.serviceName}', '${p.packName}', ${planPriceToCart}, '${planIconUrl}', ${planIconSize})">🛒 Add To Cart</button>
-                </div>`;
-        });
+                <div class="empty-placeholder col-span-2 w-full mx-auto" style="grid-column: span 2;">
+                    <span class="empty-placeholder-icon">📦</span>
+                    <h3 style="color: #FF8C00; margin-bottom: 10px;">ပက်ကေ့ချ်များ မရှိသေးပါ</h3>
+                    <p style="color: #888; font-size: 0.85rem; line-height: 1.5;">ယခုဝန်ဆောင်မှုအတွက် ဝယ်ယူရန် ပက်ကေ့ချ်များ မရှိသေးပါဘူးဗျာ।</p>
+                </div>
+            `;
+        } else {
+            plansList.forEach((p, itemIdx) => {
+                const planIconUrl = p.iconUrl || data.iconUrl || "";
+                const planIconSize = p.iconSize || 32;
+                const delay = itemIdx * 0.05;
+
+                // Priority: Plan-Specific Discount > Global Discount (Admin set discount)
+                const planDiscount = parseFloat(p.discountPercent || p.discount || 0);
+                const activeDiscount = planDiscount > 0 ? planDiscount : (window.globalDiscountPercent || 0);
+
+                let planPriceLabel = `<span class="text-[#FF8C00] font-bold">${p.price.toLocaleString()} Ks</span>`;
+                let planPriceToCart = p.price;
+
+                if (activeDiscount > 0) {
+                    const discountedServiceCost = Math.round(p.price * (1 - activeDiscount / 100));
+                    planPriceLabel = `
+                        <span class="line-through text-neutral-500 text-[10px] block">${p.price.toLocaleString()} Ks</span> 
+                        <span class="text-emerald-400 font-extrabold text-xs block">${discountedServiceCost.toLocaleString()} Ks (${activeDiscount}% OFF)</span>`;
+                    planPriceToCart = discountedServiceCost;
+                }
+
+                html += `
+                    <div class="price-box-card" style="animation-delay: ${delay}s;">
+                        <img src="${planIconUrl}" style="width: ${planIconSize}px; height: ${planIconSize}px;" class="currency-icon object-contain" alt="icon" onerror="this.src='${data.iconUrl || ''}'">
+                        <div class="price-box-amount">${p.packName}</div>
+                        <div class="price-box-cost">${planPriceLabel}</div>
+                        <button class="buy-btn" onclick="openOtherServiceOrderModal('${data.serviceName}', '${p.packName}', ${planPriceToCart}, '${planIconUrl}', ${planIconSize})">🛒 Add To Cart</button>
+                    </div>`;
+            });
+        }
 
         html += `</div>`;
         detail.innerHTML = html + '<div class="h-20"></div>';
@@ -2697,7 +3057,7 @@
 
         } catch (e) {
             console.error(e);
-            callCustomAlert("❌ အသေးစိတ်အချက်အလက်များ ဆွဲယူရာတွင် အမှားအယွင်းရှိနေပါသည်။");
+            callCustomAlert("❌ အသေးစိပ်အချက်အလက်များ ဆွဲယူရာတွင် အမှားအယွင်းရှိနေပါသည်။");
         }
     }
 
@@ -2932,22 +3292,21 @@
                 ]
             };
 
-            const teleRes = await fetch(`https://api.telegram.org/bot${tgBotToken}/sendPhoto`, {
+            // API Requests are proxied through Cloudflare Worker securely
+            const teleRes = await fetch(`${CLOUDFLARE_WORKER_URL}/sendPhoto`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    chat_id: tgChatId,
                     photo: imageUrl,
                     caption: captionMsg,
-                    parse_mode: "HTML",
                     reply_markup: inlineKeyboard
                 })
             });
             
             const teleData = await teleRes.json();
             
-            if (!teleData.ok) {
-                console.error("Telegram Error Details:", teleData);
+            if (!teleRes.ok) {
+                console.error("Cloudflare Worker Telegram Error:", teleData);
             }
             
             const alertOverlay = document.createElement("div");
@@ -2962,7 +3321,7 @@
                     <p style="font-size:0.9rem; line-height:1.6; color:#ccc; text-align:left; margin:0 0 20px 0; white-space:pre-line;">
                         လူကြီးမင်း တင်ပြထားသော ငွေဖြည့်မှုတောင်းဆိုချက်ကို တတာဝန်ရှိသူများမှ သေသေချာချာ စစ်ဆေးပေးနေပါပြီဗျာ။
 
-                        လုပ်ငန်းစဉ်သည် အများဆုံး ၁၅ မိနစ်ခန့်သာ ကြာမြင့်မည်ဖြစ်ပြီး၊ လွှဲပြောင်းမှု မှန်ကန်ပါက ၁၅ မိနစ်အတွင်း လူကြီးမင်း၏ Account ထဲသို့ ပိုက်ဆံ ထည့်သွင်းပေးသွားမည် ဖြစ်ပါသည်။
+                        လုပ်ငန်းစဉ်သည် အများဆုံး ၁၅ မိနစ်ခန့်သာ ကြာမြင့်မည်ဖြစ်ပြီး၊ လွှဲပြောင်းမှု မှန်ကန်ပါက ၁၅ မိနစ်အတွင်း  လူကြီးမင်း၏ Account ထဲသို့ ပိုက်ဆံ ထည့်သွင်းပေးသွားမည် ဖြစ်ပါသည်။
 
                         📊 သင့်ငွေဖြည့်သွင်းမှု အခြေအနေကို 'ငွေဖြည့်မှုမှတ်တမ်း ကြည့်ရန်' ခလုတ်တွင် အချိန်မရွေး ဝင်ရောက်စစ်ဆေးနိုင်ပါသည်။
 
@@ -3025,8 +3384,8 @@
             else if (q.includes("ပိုင်ရှင်") || q.includes("thu rain tun") || q.includes("owner") || q.includes("developer") || q.includes("ဘယ်သူလုပ်တာလဲ")) {
                 reply = "ဒီ Application ကို လူငယ် Developer တစ်ဦးဖြစ်တဲ့ **Thu Rain Tun** က ကိုယ်တိုင် ရေးသားဖန်တီးထားတာ ဖြစ်ပါတယ်။ SR Game Shop ကို အကောင်းဆုံး ဝန်ဆောင်မှုပေးနိုင်ဖို့ သူက အမြဲ ကြိုးစားနေပါတယ်။";
             } 
-            else if (q.includes("ငွေဖြည့်") || q.includes("deposit") || q.includes("ပိုက်ဆံဖြည့်နည်") || q.includes("kpay") || q.includes("wave") || q.includes("payment")) {
-                reply = "<b>ငွေဖြည့်သွင်းရန် အဆင့်ဆင့်:</b><br>၁။ Home Page ရှိ <b>'+ Add Money'</b> ကို နှိပ်ပါ။<br>၂။ Kpay (သို့မဟုတ်) Wave နံပါတ်ကို Copy ယူပြီး Ngwe Phyae ပါ।<br>၃။ Screenshot ကို Form တွင် တွဲတင်ပေးပါ။<br>၄။ လုပ်ငန်းချိန်မှာ မနက် 8 နာရီ ကနေ ည 10 နာရီထိဖြစ်ပြီး၊ အချိန်အတွင်းဆိုရင် စစ်ဆေးပြီး ၅ မိနစ်ကနေ ၁၅ မိနစ်အတွင်း ဖြည့်ပေးပါလိမ့်မယ်။";
+            else if (q.includes("ငွေဖြည့်") || q.includes("deposit") || q.includes("ပိုက်ဆံဖြည့်နည်း") || q.includes("kpay") || q.includes("wave") || q.includes("payment")) {
+                reply = "<b>ငွေဖြည့်သွင်းရန် အဆင့်ဆင့်:</b><br>၁။ Home Page ရှိ <b>'+ Add Money'</b> ကို နှိပ်ပါ။<br>၂။ Kpay (သို့မဟုတ်) Wave နံပါတ်ကို Copy ယူပြီး ငွေလွှဲပေးပါ။<br>၃။ Screenshot ကို Form တွင် တွဲတင်ပေးပါ။<br>၄။ လုပ်ငန်းချိန်မှာ မနက် 8 နာရီ ကနေ ည 10 နာရီထိဖြစ်ပြီး၊ အချိန်အတွင်းဆိုရင် စစ်ဆေးပြီး ၅ မိနစ်ကနေ ၁၅ မိနစ်အတွင်း ဖြည့်ပေးပါလိမ့်မယ်။";
             } 
             else if (q.includes("order") || q.includes("အော်ဒါ") || q.includes("ဝယ်နည်း") || q.includes("တင်နည်း") || q.includes("ဘယ်လိုဝယ်ရမလဲ") || q.includes("cart") || q.includes("ခြင်းတောင်း")) {
                 reply = "<b>အော်ဒါတင်ခြင်းနှင့် Cart အသုံးပြုနည်းလမ်းညွှန်:</b><br>၁။ မိမိဝယ်လိုသော Game (MLBB, Free Fire, PUBG) ကို ရွေးပါ။<br>၂။ Game ID နှင့် Server ID ကို ဖြည့်သွင်းပါ။<br>၃။ <b>'Add To Cart 🛒'</b> ကို နှိပ်ပြီး ခြင်းတောင်းထဲ ပေါင်းထည့်ပါ။<br>၄။ အောက်ဘက် Tab အကွက်ရှိ <b>Cart</b> စာမျက်နှာသို့ သွားရောက်ကာ အော်ဒါများကို တစ်ပြိုင်နက် <b>Checkout</b> မှာယူနိုင်ပါသည်ခင်ဗျာ။<br>၅။ မှာယူချိန်မှာ မနက် 8 နာရီ ကနေ ည 10 နာရီထိ ဖြစ်ပါတယ်။";
@@ -3041,10 +3400,10 @@
                 reply = "Password မေ့သွားပါက login စာမျက်နှာရှိ Reset link မှသော်လည်းကောင်း၊ <b>Contact Admin</b> မှတဆင့် ပိုင်ရှင် Thu Rain Tun ထံသို့ တိုက်ရိုက် ဆက်သွယ်ပေးပါ။ လူကြီးမင်း၏ ဖုန်းနံပါတ်ကို စစ်ဆေးပြီး Password အသစ် ပြန်လည် ထုတ်ပေးပါလိမ့်မယ်။ Logged-in ဝင်ထားရင်တော့ Sidebar ထဲက Change Password Page ကနေ အလွယ်တကူ ပြောင်းလဲနိုင်ပါတယ်ဗျာ။";
             }
             else if (q.includes("ကြာမလား") || q.includes("ဘယ်လောက်ကြာ") || q.includes("waiting time")) {
-                reply = "ပုံမှန်အားဖြင့် အော်ဒါတင်ပြီး <b>၅ မိနစ်မှ ၁၅ မိနစ်</b> အတွင်း ရောက်ပါတယ်ခင်ဗျာ။ Admin မအားလပ်တဲ့ အချိန်မျိုးမှာတော့ အနည်းငယ် ကြာနိုင်ပါတယ်။";
+                reply = " can ဝယ်ယူပြီးပါက ပုံမှန်အားဖြင့် အော်ဒါတင်ပြီး <b>၅ မိနစ်မှ ၁၅ မိနစ်</b> အတွင်း ရောက်ပါတယ်ခင်ဗျာ။ Admin မအားလပ်တဲ့ အချိန်မျိုးမှာတော့ အနည်းငယ် ကြာနိုင်ပါတယ်။";
             }
             else if (q.includes("မရောက်သေးဘူး") || q.includes("order မတက်ဘူး")) {
-                reply = "အော်ဒါတင်ပြီး မိနစ် ၂၀ ကျော်တဲ့အထိ မရောက်သေးရင် <b>Contact Admin</b> ကတ်ထဲ့က Link များမှတစ်ဆင့် Admin ကို တိုက်ရိုက်ဆက်သွယ် မေးမြန်းနိုင်ပါတယ်ခင်ဗျာ။";
+                reply = "အော်ဒါတင်ပြီး မိနစ် ၂၀ ကျော်တဲ့အထိ မရောက်သေးရင် <b>Contact Admin</b> ကတ်ထဲက Link များမှတစ်ဆင့် Admin ကို တိုက်ရိုက်ဆက်သွယ် မေးမြန်းနိုင်ပါတယ်ခင်ဗျာ။";
             }
             else if (q.includes("ချစ်တယ်") || q.includes("i love you")) {
                 reply = "ကျွန်တော်တို့ <b>SR Game Shop</b> ကို အားပေးတဲ့အတွက် အများကြီး ချစ်ပါတယ်ခင်ဗျာ! ❤️ အမြဲတမ်း အကောင်းဆုံး ဝန်ဆောင်မှုပေးသွားမှာပါ။";
@@ -3074,13 +3433,13 @@
 
     async function sendToTelegram(msg) {
         try { 
-            await fetch(`https://api.telegram.org/bot${tgBotToken}/sendMessage`, { 
+            await fetch(`${CLOUDFLARE_WORKER_URL}/sendMessage`, { 
                 method: 'POST', 
                 headers: { 'Content-Type': 'application/json' }, 
-                body: JSON.stringify({ chat_id: tgChatId, text: msg, parse_mode: "HTML" }) 
+                body: JSON.stringify({ text: msg }) 
             }); 
         } catch (e) {
-            console.error("Telegram sending failed:", e);
+            console.error("Telegram sending via Cloudflare failed:", e);
         }
     }
 

@@ -1352,7 +1352,7 @@ async function checkoutCart() {
                             `👤 ဝယ်သူ: ${currentUser.name}\n` +
                             `📞 Phone Number: <code>${currentUser.phone}</code>\n` +
                             `📈 အော်ဒါအရေအတွက်: ${cart.length} ခု\n` +
-                            `💰 Сုစုပေါင်းရှင်းပြီးငွေ: <b>${totalPay.toLocaleString()} Ks</b>\n\n` +
+                            `💰 စုစုပေါင်းရှင်းပြီးငွေ: <b>${totalPay.toLocaleString()} Ks</b>\n\n` +
                             `📝 <b>အော်ဒါအသေးစိတ်များ:</b>\n` +
                             `------------------------------------\n` +
                             telegramDetails.join("\n\n");
@@ -2123,7 +2123,7 @@ async function submitDepositOrder() {
     if (!amount || amount <= 0) return await callCustomAlert("⚠️ ကျေးဇူးပြု၍ Ngwe Phyaေ ပမာဏကို မှန်ကန်စွာ ဖြည့်သွင်းပေးပါ။");
     if (!selectedImageBase64) return await callCustomAlert("⚠️ ကျေးဇူးပြု၍ Ngwe Phyaေ စလစ် Screenshot ပုံတင်ပေးပါ။");
 
-    btn.innerText = "Processing... ขဏစောင့်ပါ";
+    btn.innerText = "Processing... ခဏစောင့်ပါ";
     btn.disabled = true;
 
     try {

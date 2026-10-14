@@ -1,8 +1,12 @@
 
-importScripts('https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js');
+importScripts(
+  "https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"
+);
+importScripts(
+  "https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"
+);
 
-const firebaseConfig = {
+firebase.initializeApp({
   apiKey: "AIzaSyALqp9IxejZ2b4d3vJMGuwV0RWPxpQRsaU",
   authDomain: "diamondshop-b56ab.firebaseapp.com",
   databaseURL: "https://diamondshop-b56ab-default-rtdb.firebaseio.com",
@@ -11,15 +15,24 @@ const firebaseConfig = {
   messagingSenderId: "504521967191",
   appId: "1:504521967191:web:215ead398cab81444f8512",
   measurementId: "G-9RGLMY2F05"
-};
+});
 
 const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage((payload) => {
+messaging.onBackgroundMessage(function (payload) {
   const title = payload.notification?.title || "SR Game Shop";
-  const options = {
-    body: payload.notification?.body || "အသိပေးချက်အသစ် ရှိပါတယ်။"
-  };
 
-  self.registration.showNotification(title, options);
+  return self.registration.showNotification(title, {
+    body: payload.notification?.body || "You have a new notification!",
+    icon: "/SR-Game-Shop/favicon.ico",
+    data: { url: "/SR-Game-Shop/" }
+  });
+});
+
+self.addEventListener("notificationclick", function (event) {
+  event.notification.close();
+
+  const url = event.notification.data?.url || "/SR-Game-Shop/";
+
+  event.waitUntil(clients.openWindow(url));
 });

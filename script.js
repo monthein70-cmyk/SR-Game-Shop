@@ -2371,10 +2371,9 @@ async function sendToTelegram(msg) {
 
 /* ===== SR GAME SHOP FCM SETUP ===== */
 
-const SR_VAPID_PUBLIC_KEY = "YOUR_VAPID_PUBLIC_KEY";
+const SR_VAPID_PUBLIC_KEY = "BNGcLbCBYk_C-JmEB4NTe0EXzvfsewsUcket-CPo6piXZF390l1LjO4_rRXONGC8_rY4ZOt-4iXL7xA4xvwdugA";
 
-async function enableSRNotifications() {
-  try {
+async function enableSRYOUR_VAPID_PUBLIC_KEYry {
     if (!("Notification" in window) ||
         !("serviceWorker" in navigator)) {
       alert("ဒီ Browser မှာ Push Notification မရနိုင်ပါ။");

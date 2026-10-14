@@ -2368,3 +2368,70 @@ async function sendToTelegram(msg) {
         console.error("Telegram sending failed:", e);
     }
 }
+
+/* ===== SR GAME SHOP FCM SETUP ===== */
+
+const SR_VAPID_PUBLIC_KEY = "YOUR_VAPID_PUBLIC_KEY";
+
+async function enableSRNotifications() {
+  try {
+    if (!("Notification" in window) ||
+        !("serviceWorker" in navigator)) {
+      alert("ဒီ Browser မှာ Push Notification မရနိုင်ပါ။");
+      return;
+    }
+
+    if (Notification.permission === "denied") {
+      alert("Browser Settings ထဲမှာ Notification ကို Allow လုပ်ပါ။");
+      return;
+    }
+
+    const permission = await Notification.requestPermission();
+
+    if (permission !== "granted") {
+      alert("Notification ခွင့်ပြုချက် မရသေးပါ။");
+      return;
+    }
+
+    const registration = await navigator.serviceWorker.register(
+      "/SR-Game-Shop/firebase-messaging-sw.js"
+    );
+
+    const messaging = firebase.messaging();
+
+    const token = await messaging.getToken({
+      vapidKey: SR_VAPID_PUBLIC_KEY,
+      serviceWorkerRegistration: registration
+    });
+
+    if (!token) {
+      alert("FCM Token မရပါ။ နောက်တစ်ကြိမ် စမ်းပါ။");
+      return;
+    }
+
+    // လက်ရှိ Customer Login ဝင်ထားမှ Token သိမ်းမည်။
+    const user = firebase.auth().currentUser;
+
+    if (!user) {
+      alert("အရင် Login ဝင်ပါ၊ ပြီးမှ Notification ဖွင့်ပါ။");
+      return;
+    }
+
+    await firebase.firestore()
+      .collection("users")
+      .doc(user.uid)
+      .collection("fcmTokens")
+      .doc(token)
+      .set({
+        token: token,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+    alert("SR Game Shop Notification ဖွင့်ပြီးပါပြီ! ✅");
+
+    console.log("FCM Token registered.");
+  } catch (error) {
+    console.error("FCM setup error:", error);
+    alert("Notification ချိတ်ဆက်မှု မအောင်မြင်ပါ။ Console ကို စစ်ပါ။");
+  }
+}
